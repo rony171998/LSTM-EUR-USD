@@ -1,0 +1,36 @@
+# Ignorar el entorno virtual
+venv/
+
+# Archivos de dependencias
+__pycache__/
+*.pyc
+*.pyo
+
+# Configuración de entorno
+.env
+
+# Archivos de datos generados
+eur_usd_historico.csv
+lstm_eurusd_model.h5
+
+# Archivos de logs
+logs/
+*.log
+
+# Configuración de IDEs
+.vscode/
+.idea/
+*.iml
+
+# Cachés de Jupyter Notebook
+.ipynb_checkpoints/
+
+# Archivos de compilación
+build/
+dist/
+*.egg-info/
+
+# Otros archivos no necesarios
+.DS_Store
+Thumbs.db
+
