@@ -1,9 +1,15 @@
 import numpy as np
+import pandas as pd
 import tensorflow as tf
-from tensorflow import keras
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import LSTM, Dense
 from sklearn.preprocessing import MinMaxScaler
+
+# Cargar los datos
+df = pd.read_csv("eur_usd_historico.csv", header=0, index_col="Timestamp", parse_dates=True)
+
+# Filtrar solo la columna 'Close' (precio de cierre)
+df = df[['Close']]
 
 # Normalizar los datos
 scaler = MinMaxScaler(feature_range=(0,1))
@@ -38,28 +44,7 @@ model = Sequential([
 model.compile(optimizer='adam', loss='mean_squared_error')
 
 # Entrenar la LSTM
-model.fit(X_train, y_train, epochs=20, batch_size=32, validation_data=(X_test, y_test))
+model.fit(X_train, y_train, epochs=50, batch_size=32, validation_data=(X_test, y_test))
 
 # Guardar el modelo
 model.save("lstm_eurusd_model.h5")
-
-# Cargar modelo guardado
-model = keras.models.load_model("lstm_eurusd_model.h5")
-
-# Hacer predicciones
-y_pred = model.predict(X_test)
-
-# Desnormalizar los datos
-y_pred = scaler.inverse_transform(y_pred)
-y_test = scaler.inverse_transform(y_test)
-
-# Graficar resultados
-import matplotlib.pyplot as plt
-
-plt.figure(figsize=(12,6))
-plt.plot(y_test, label="Real")
-plt.plot(y_pred, label="Predicho")
-plt.legend()
-plt.title("Predicción EUR/USD con LSTM")
-plt.show()
-
