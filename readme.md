@@ -6,7 +6,7 @@ Este proyecto utiliza datos históricos del tipo de cambio **EUR/USD** para entr
 
 ### 1️⃣ Clonar el repositorio
 ```sh
-git clone https://github.com/ruunny/lstm-aurousd-model.git
+git clone https://github.com/rony171998/LSTM-EUR-USD.git
 cd tu_repositorio
 ```
 
