@@ -28,24 +28,24 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-## 📊 Descarga de datos históricos
-Ejecuta el siguiente script para obtener los datos históricos del EUR/USD:
-```sh
-python get_data.py
-```
-Esto generará un archivo `eur_usd_historico.csv` con los datos necesarios.
-
 ## 🧠 Entrenar el modelo LSTM
 Para entrenar la red neuronal LSTM, ejecuta:
 ```sh
 python train_model.py
 ```
-El modelo entrenado se guardará como `lstm_eurusd_model.h5`.
+El modelo entrenado se guardará como `TLS_LSTMModel_EUR_USD_2010-2024.csv.pth`.
+
+## Ejecuta el modelo:
+```sh
+Una Ejecuta el script execute_model.py para ver el modelo LSTM:
+```sh
+python execute_model.py
+```
 
 ## 🔍 Realizar predicciones
 Una vez entrenado el modelo, puedes generar predicciones con:
 ```sh
-python predict.py
+python predecir_future.py
 ```
 Esto graficará los valores reales vs. predichos.
 
