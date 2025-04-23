@@ -15,7 +15,7 @@ class ModelParams:
     HIDDEN_SIZE: int = 512
     DROPOUT_PROB: float = 0.10976329984400868
     FEATURES: List[str] = field(default_factory=lambda: ["Último", "RSI", "SMA"])
-    MODELNAME: str = "HybridLSTMAttention" 
+    MODELNAME: str = "TLS_LSTMModel" 
     #TLS_LSTMModel 
     #BidirectionalDeepLSTM
     #HybridLSTMAttention
