@@ -14,6 +14,7 @@ from train_model import (
     device
 )
 from config import DEFAULT_PARAMS
+from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
 
 # --- Parámetros Consistentes con el Entrenamiento ---
 FILEPATH = DEFAULT_PARAMS.FILEPATH
@@ -167,6 +168,32 @@ if __name__ == "__main__":
                 df2025[TARGET_COLUMN],
                 label="Datos Reales 2025", color="green")
 
+    common_dates = df_future.index.intersection(df2025.index)
+
+    if len(common_dates) > 0:
+        y_true = df2025.loc[common_dates, TARGET_COLUMN].values
+        y_pred = df_future.loc[common_dates, 'Predicción'].values
+
+        # Calcular métricas
+        mae = mean_absolute_error(y_true, y_pred)
+        mse = mean_squared_error(y_true, y_pred)
+        rmse = np.sqrt(mse)
+        r2 = r2_score(y_true, y_pred)
+        mape = np.mean(np.abs((y_true - y_pred) / y_true)) * 100
+
+        # Mostrar métricas en consola
+        print("\n🔍 Métricas de evaluación:")
+        print(f"MAE: {mae:.4f}")
+        print(f"MSE: {mse:.4f}")
+        print(f"RMSE: {rmse:.4f}")
+        print(f"R²: {r2:.4f}")
+        print(f"MAPE: {mape:.2f}%")
+
+        # Agregar métricas al gráfico
+        metrics_text = f"MAE: {mae:.4f}\nMSE: {mse:.4f}\nRMSE: {rmse:.4f}\nR²: {r2:.4f}\nMAPE: {mape:.2f}%"
+        plt.gcf().text(0.75, 0.45, metrics_text, fontsize=10, bbox=dict(facecolor='white', alpha=0.6))
+    else:
+        print("⚠️ No hay fechas comunes entre predicción y datos reales para evaluar.")
     # Graficar predicciones futuras
     plt.plot(df_future.index,
             df_future['Predicción'],

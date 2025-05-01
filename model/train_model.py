@@ -17,83 +17,79 @@ from modelos import (
     TLS_LSTMModel,
     GRU_Model,
     HybridLSTMAttentionModel,
-    TemporalAutoencoderLSTM,
     BidirectionalDeepLSTMModel,
 )
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print(f"Usando dispositivo: {device}")
 
 # 1. Carga y preparación de datos con análisis de Hurst
-def load_and_prepare_data(filepath):
+def load_and_prepare_data(filepath: str) -> pd.DataFrame:
     """Carga y preprocesa los datos del archivo CSV."""
-    print(f"Cargando datos desde: data/{filepath}")
+    print(f"📂 Cargando datos desde: data/{filepath}")
     try:
         df = pd.read_csv(
             f"data/{filepath}",
             index_col="Fecha",
             parse_dates=True,
-            dayfirst=True,  # Interpretar fechas como día/mes/año
-            decimal=",",    # Usar coma como separador decimal
-            thousands=".",  # Punto como separador de miles
+            dayfirst=True,
+            decimal=",",
+            thousands=".",
             converters={
-                "Último": lambda x: float(str(x).replace(".", "").replace(",", ".")),
-                "Apertura": lambda x: float(str(x).replace(".", "").replace(",", ".")),
-                "Máximo": lambda x: float(str(x).replace(".", "").replace(",", ".")),
-                "Mínimo": lambda x: float(str(x).replace(".", "").replace(",", ".")),
-                "% var.": lambda x: float(str(x).replace("%", "").replace(",", "."))
-                # Manejar strings vacíos
-                if isinstance(x, str) and x != '' else np.nan
+                "Último": lambda x: float(str(x).replace(".", "").replace(",", ".")) if x else np.nan,
+                "Apertura": lambda x: float(str(x).replace(".", "").replace(",", ".")) if x else np.nan,
+                "Máximo": lambda x: float(str(x).replace(".", "").replace(",", ".")) if x else np.nan,
+                "Mínimo": lambda x: float(str(x).replace(".", "").replace(",", ".")) if x else np.nan,
+                "% var.": lambda x: float(str(x).replace("%", "").replace(",", ".")) if x else np.nan
             }
         )
-        df = df.sort_index(ascending=True)  # Asegurar orden cronológico
-        # Eliminar filas donde 'Último' es NaN
+        
+        df = df.sort_index(ascending=True)
         df = df.dropna(subset=["Último"])
+        
+        print(f"✅ Datos cargados: {df.shape[0]} filas")
+        print(f"📅 Periodo: {df.index.min()} a {df.index.max()}")
 
-        print(f"Datos cargados: {df.shape[0]} filas.")
-        print(f"Periodo: {df.index.min()} a {df.index.max()}")
-
+        # 🎯 Calcular Hurst
         try:
-                # Asegurar que no haya NaNs en la serie para Hurst
             ultimo_series = df["Último"].dropna().values
-            if len(ultimo_series) > 100:  # Hurst requiere un mínimo de datos
-                H, c, data_hurst = compute_Hc(
-                    ultimo_series, kind='price', simplified=True)
-                print(f"\nExponente de Hurst (H): {H:.4f}")
+            if len(ultimo_series) > 100:
+                H, c, data_hurst = compute_Hc(ultimo_series, kind='price', simplified=True)
+                print(f"📈 Exponente de Hurst (H): {H:.4f}")
                 if H > 0.55:
-                    print("✅ Serie temporal parece tener tendencia persistente (H > 0.5).")
+                    print("✨ Tendencia persistente (H > 0.5)")
                 elif H < 0.45:
-                    print("⚠️ Serie temporal parece ser anti-persistente (H < 0.5).")
+                    print("⚡ Anti-persistente (H < 0.5)")
                 else:
-                    print("ℹ️ Serie temporal podría ser cercana a un paseo aleatorio (H ≈ 0.5).")
+                    print("🔮 Posible paseo aleatorio (H ≈ 0.5)")
             else:
-                print("\nNo hay suficientes datos para calcular el exponente de Hurst de forma fiable.")
+                print("🙈 No suficientes datos para Hurst.")
         except Exception as e:
-            print(f"\nError al calcular el exponente de Hurst: {e}")
+            print(f"🚨 Error en Hurst: {e}")
 
+        # 🎯 Test ADF
         try:
-            # Asegurar que no haya NaNs en la serie para ADF
             ultimo_series_adf = df["Último"].dropna().values
             if len(ultimo_series_adf) > 0:
                 adf_result = adfuller(ultimo_series_adf)
-                print(f"\nTest de Dickey-Fuller Aumentado (ADF):")
+                print(f"\n🧪 Test ADF:")
                 print(f"  Estadístico ADF: {adf_result[0]:.4f}")
                 print(f"  p-valor: {adf_result[1]:.4f}")
                 if adf_result[1] <= 0.05:
-                    print("✅ La serie parece ser estacionaria (Rechaza H0, p <= 0.05).")
+                    print("🌟 Serie estacionaria (p <= 0.05)")
                 else:
-                    print("⚠️ La serie parece ser NO estacionaria (No rechaza H0, p > 0.05).")
+                    print("💤 Serie NO estacionaria (p > 0.05)")
             else:
-                print("\nNo hay datos en la columna 'Último' para el test ADF.")
+                print("🚫 Sin datos para ADF.")
         except Exception as e:
-            print(f"\nError al realizar el test ADF: {e}")
+            print(f"🚨 Error en ADF: {e}")
 
         return df
-
+    
     except FileNotFoundError:
-        print(f"Error: Archivo no encontrado en data/{filepath}")
+        print(f"🚫 Archivo no encontrado: data/{filepath}")
         return None
     except Exception as e:
-        print(f"Error inesperado al cargar o procesar los datos: {e}")
+        print(f"🚨 Error inesperado: {e}")
         return None
 
 # 2. Creación de secuencias

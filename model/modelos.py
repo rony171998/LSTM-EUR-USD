@@ -2,7 +2,7 @@ import torch.nn as nn
 import torch
 
 class TLS_LSTMModel(nn.Module):
-    def __init__(self, input_size=2, hidden_size=256, output_size=1, dropout_prob=0.2):
+    def __init__(self, input_size=2, hidden_size=512, output_size=1, dropout_prob=0.2):
         super(TLS_LSTMModel, self).__init__()
         self.hidden_size = hidden_size
         self.lstm1 = nn.LSTM(input_size, hidden_size, batch_first=True)
@@ -21,7 +21,7 @@ class TLS_LSTMModel(nn.Module):
         return out
     
 class HybridLSTMAttentionModel(nn.Module):
-    def __init__(self, input_size=2, hidden_size=256, output_size=1, dropout_prob=0.2):
+    def __init__(self, input_size=3, hidden_size=512, output_size=1, dropout_prob=0.1):
         super(HybridLSTMAttentionModel, self).__init__()
         # Capas LSTM
         self.lstm1 = nn.LSTM(input_size, hidden_size, batch_first=True)
@@ -43,6 +43,16 @@ class HybridLSTMAttentionModel(nn.Module):
             nn.Dropout(dropout_prob),
             nn.Linear(hidden_size//2, output_size)
         )
+        
+        # Inicialización de pesos
+        self._init_weights()
+
+    def _init_weights(self):
+        for name, param in self.named_parameters():
+            if 'weight' in name and param.dim() > 1:  # Solo para matrices
+                nn.init.xavier_uniform_(param)
+            elif 'bias' in name:  # Para biases
+                nn.init.constant_(param, 0.0)
 
     def forward(self, x):
         # Capas LSTM
@@ -50,32 +60,16 @@ class HybridLSTMAttentionModel(nn.Module):
         lstm1_out = self.dropout1(lstm1_out)
         lstm2_out, _ = self.lstm2(lstm1_out)
         
-        # Atención sobre la última capa LSTM
+        # Atención
         attention_weights = self.attention(lstm2_out)
         context_vector = torch.sum(attention_weights * lstm2_out, dim=1)
         
         # Salida final
         out = self.fc(context_vector)
-        return out
-    
-class ResidualLSTMModel(nn.Module):
-    def __init__(self, input_size=2, hidden_size=256, output_size=1, dropout_prob=0.2):
-        super(ResidualLSTMModel, self).__init__()
-        self.lstm1 = nn.LSTM(input_size, hidden_size, batch_first=True)
-        self.dropout1 = nn.Dropout(dropout_prob)
-        self.lstm2 = nn.LSTM(hidden_size, hidden_size, batch_first=True)
-        self.fc = nn.Linear(hidden_size, output_size)
-        
-    def forward(self, x):
-        lstm1_out, _ = self.lstm1(x)
-        lstm1_out = self.dropout1(lstm1_out)
-        lstm2_out, _ = self.lstm2(lstm1_out)
-        # Skip connection desde la entrada de la segunda LSTM
-        out = self.fc(lstm2_out[:, -1, :] + lstm1_out[:, -1, :])  # Suma residual
-        return out
-    
+        return out.squeeze(-1)  # Asegura forma (batch_size,)
+      
 class BidirectionalDeepLSTMModel(nn.Module):
-    def __init__(self, input_size=2, hidden_size=256, output_size=1, dropout_prob=0.2):
+    def __init__(self, input_size=2, hidden_size=512, output_size=1, dropout_prob=0.2):
         super(BidirectionalDeepLSTMModel, self).__init__()
         self.lstm = nn.LSTM(input_size, hidden_size, batch_first=True, bidirectional=True, num_layers=2)
         self.dropout = nn.Dropout(dropout_prob)
@@ -91,32 +85,9 @@ class BidirectionalDeepLSTMModel(nn.Module):
         lstm_out = self.dropout(lstm_out)
         out = self.fc(lstm_out[:, -1, :])
         return out
-    
-class TemporalAutoencoderLSTM(nn.Module):
-    def __init__(self, input_size=2, hidden_size=256, output_size=1, dropout_prob=0.2):
-        super(TemporalAutoencoderLSTM, self).__init__()
-        # Encoder
-        self.encoder = nn.LSTM(input_size, hidden_size, batch_first=True, num_layers=2)
-        # Decoder (para reconstrucción)
-        self.decoder = nn.LSTM(hidden_size, input_size, batch_first=True)
-        # Predictor
-        self.predictor = nn.Sequential(
-            nn.Linear(hidden_size, hidden_size//2),
-            nn.ReLU(),
-            nn.Linear(hidden_size//2, output_size)
-        )
         
-    def forward(self, x):
-        # Encoding
-        encoded, _ = self.encoder(x)
-        # Decoding (opcional, se puede usar como regularización)
-        decoded, _ = self.decoder(encoded)
-        # Predicción
-        out = self.predictor(encoded[:, -1, :])
-        return out, decoded  # Devuelve ambos para pérdida compuesta
-    
 class GRU_Model(nn.Module):
-    def __init__(self, input_size=2, hidden_size=256, output_size=1, dropout_prob=0.2, num_layers=2):
+    def __init__(self, input_size=2, hidden_size=512, output_size=1, dropout_prob=0.2, num_layers=2):
         super(GRU_Model, self).__init__()
         self.hidden_size = hidden_size
         self.num_layers = num_layers

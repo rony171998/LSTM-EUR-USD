@@ -2,18 +2,15 @@
 import numpy as np
 import pandas as pd
 import torch
-import torch.nn as nn
 import matplotlib.pyplot as plt
-from sklearn.preprocessing import MinMaxScaler
 import joblib # Para cargar el scaler
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 from train_model import (
     add_indicator,
-    load_and_prepare_data,
-    #create_sequences,
     get_model,
     device
 )
+from save_data import get_df
 from config import DEFAULT_PARAMS
 
 # --- Parámetros Consistentes con el Entrenamiento ---
@@ -46,7 +43,9 @@ def create_sequences(data, seq_length, forecast_horizon):
 
 if __name__ == "__main__":
     # 1. Cargar los datos (similar al script de entrenamiento)
-    df = load_and_prepare_data(FILEPATH)
+    ##df = load_and_prepare_data(FILEPATH)
+    df = get_df(table_name="eur_usd")  # Cambia esto según necesites
+
     # Después de cargar df, añade el RSI
     # Obtener todos los indicadores de forma dinámica
     indicators = add_indicator(df)
@@ -117,7 +116,7 @@ if __name__ == "__main__":
                         output_size=FORECAST_HORIZON,
                         dropout_prob=DROPOUT_PROB).to(device)
     try:
-        model.load_state_dict(torch.load(f"modelos/{MODEL_PATH}", map_location=device, weights_only=True))
+        model.load_state_dict(torch.load(f"modelos/{MODEL_PATH}", map_location=device), strict=True)
     except FileNotFoundError:
         print(f"Error: Archivo del modelo no encontrado en {MODEL_PATH}.")
         print("Asegúrate de haber ejecutado train_model.py primero y que haya guardado el modelo.")
@@ -177,44 +176,45 @@ if __name__ == "__main__":
     # 10. Graficar resultados con RSI
     print("Generando gráfico de resultados")
 
-   # Crear figura con tres subplots (precio, SMA, RSI)
-    fig, (ax1, ax2, ax3) = plt.subplots(3, 1, figsize=(14, 12), gridspec_kw={'height_ratios': [3, 1, 1]})
+   # Crear figura con solo el gráfico principal
+    fig, ax1 = plt.subplots(figsize=(16, 8))
 
-    # --- Gráfico superior: Precio y predicciones ---
-    ax1.plot(test_indices, y_test_original, label="Valor Real (Test)", color="blue", marker='.', linestyle='-')
-    ax1.plot(test_indices, y_pred, label="Predicción LSTM (Test)", color="red", marker='.', linestyle='--')
-    ax1.set_title(f"Comparación Real vs. Predicción LSTM ({FILEPATH})")
-    ax1.set_ylabel("Precio")
-    ax1.legend()
-    ax1.grid(True)
+    # --- Gráfico principal: Precio y predicciones ---
+    metrics_text = (
+        f"MAE: {mae:.4f}\n"
+        f"MSE: {mse:.4f}\n"
+        f"RMSE: {rmse:.4f}\n"
+        f"R²: {r2:.4f}\n"
+        f"MAPE: {mape:.2f}%"
+    )
 
-    # --- Gráfico medio: SMA ---
-    sma_values = df.loc[test_indices, "SMA"]
-    ax2.plot(test_indices, sma_values, label="SMA (20 periodos)", color="orange")
-    ax2.plot(test_indices, y_test_original, label="Precio Real", color="blue", alpha=0.3)  # Precio de referencia
-    ax2.set_ylabel("SMA vs Precio")
-    ax2.legend()
-    ax2.grid(True)
+    # Gráfico de precios con las predicciones
+    ax1.plot(test_indices, y_test_original, label="Valor Real (Test)", color="blue", alpha=0.7, linewidth=1.5)
+    ax1.plot(test_indices, y_pred, label="Predicción LSTM (Test)", color="red", linestyle='--', alpha=0.8, linewidth=1.5)
 
-    # --- Gráfico inferior: RSI ---
-    rsi_values = df.loc[test_indices, "RSI"]
-    ax3.plot(test_indices, rsi_values, label="RSI (14 periodos)", color="purple")
-    ax3.axhline(70, color="red", linestyle="--", alpha=0.5, label="Sobrecompra (70)")
-    ax3.axhline(30, color="green", linestyle="--", alpha=0.5, label="Sobreventa (30)")
-    ax3.set_xlabel("Fecha")
-    ax3.set_ylabel("RSI")
-    ax3.legend()
-    ax3.grid(True)
+    # Añadir cuadro con métricas
+    ax1.annotate(
+        metrics_text,
+        xy=(0.02, 0.75),
+        xycoords='axes fraction',
+        bbox=dict(boxstyle="round", alpha=0.5, facecolor="white")
+    )
 
-    # Rotar fechas solo en el gráfico inferior
-    for tick in ax3.get_xticklabels():
+    # Configuración del gráfico
+    ax1.set_title(f"Comparación Real vs. Predicción LSTM ({FILEPATH})", fontsize=14, pad=20)
+    ax1.set_xlabel("Fecha", fontsize=12)
+    ax1.set_ylabel("Precio", fontsize=12)
+    ax1.legend(fontsize=12)
+    ax1.grid(True, linestyle='--', alpha=0.7)
+
+    # Rotar fechas para mejor visualización
+    for tick in ax1.get_xticklabels():
         tick.set_rotation(45)
 
     plt.tight_layout()
 
-    # Guardar la figura antes de mostrarla
+    # Guardar la figura
     fig.savefig(f"images/test/{MODEL_PATH}.png", dpi=300, bbox_inches='tight')
-
     plt.show()
 
     print("\nEjecución completada.")

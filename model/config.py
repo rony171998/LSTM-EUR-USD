@@ -7,7 +7,7 @@ class ModelParams:
     TARGET_COLUMN: str = "Último"
     SEQ_LENGTH: int = 120
     FORECAST_HORIZON: int = 1
-    TRAIN_SPLIT_RATIO: float = 0.90
+    TRAIN_SPLIT_RATIO: float = 0.80
     BATCH_SIZE: int = 16
     EPOCHS: int = 150
     PATIENCE: int = 10
@@ -15,11 +15,10 @@ class ModelParams:
     HIDDEN_SIZE: int = 512
     DROPOUT_PROB: float = 0.10976329984400868
     FEATURES: List[str] = field(default_factory=lambda: ["Último", "RSI", "SMA"])
-    MODELNAME: str = "TLS_LSTMModel" 
-    #TLS_LSTMModel 
+    MODELNAME: str = "GRU_Model" 
+    #TLS_LSTMModel
     #BidirectionalDeepLSTM
     #HybridLSTMAttention
-    #TemporalAutoencoderLSTM
     #GRU_Model
     MODELPATH: str = f"{MODELNAME}_{FILEPATH}.pth"
     SCALER_PATH: str = f"modelos/{FILEPATH}_scaler.pkl"
