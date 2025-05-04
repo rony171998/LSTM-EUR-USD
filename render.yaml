@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: lstm-prediction-api
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn -c gunicorn_config.py main:app
+    envVars:
+      - key: ENVIRONMENT
+        value: production
+      - key: PORT
+        value: 10000 

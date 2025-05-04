@@ -31,6 +31,7 @@ def predict(request: PredictRequest):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+# Solo ejecutar con uvicorn en desarrollo
 if __name__ == "__main__":
     # Obtener el puerto del entorno o usar 8000 por defecto
     port = int(os.getenv("PORT", 8000))
