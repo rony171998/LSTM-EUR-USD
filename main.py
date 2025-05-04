@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from api.predict import predict_future_prices, PredictRequest
 from api.models import router as models_router
 import uvicorn
+import os
 
 app = FastAPI(
     title="LSTM Prediction API",
@@ -30,6 +31,10 @@ def predict(request: PredictRequest):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-
 if __name__ == "__main__":
-    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
+    # Obtener el puerto del entorno o usar 8000 por defecto
+    port = int(os.getenv("PORT", 8000))
+    # En producción, usar 0.0.0.0 para permitir conexiones externas
+    host = "0.0.0.0" if os.getenv("ENVIRONMENT") == "production" else "127.0.0.1"
+    
+    uvicorn.run("main:app", host=host, port=port, reload=True)
