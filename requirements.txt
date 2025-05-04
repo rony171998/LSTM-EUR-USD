@@ -121,7 +121,6 @@ tensorboard-data-server==0.7.2
 tensorboard-plugin-wit==1.8.1
 tensorflow==2.18.0
 tensorflow-estimator==2.11.0
-tensorflow-io-gcs-filesystem==0.31.0
 termcolor==2.5.0
 threadpoolctl==3.5.0
 torch==2.5.1
