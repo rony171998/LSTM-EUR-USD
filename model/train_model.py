@@ -12,8 +12,8 @@ from hurst import compute_Hc
 from sklearn.preprocessing import RobustScaler
 import time
 from datetime import timedelta
-from config import DEFAULT_PARAMS
-from modelos import (
+from model.config import DEFAULT_PARAMS
+from model.modelos import (
     TLS_LSTMModel,
     GRU_Model,
     HybridLSTMAttentionModel,
