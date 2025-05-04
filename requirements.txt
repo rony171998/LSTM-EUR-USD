@@ -41,11 +41,15 @@ google-pasta==0.2.0
 greenlet==3.1.1
 grpcio==1.70.0
 h11==0.16.0
+h2==4.2.0
 h5py==3.12.1
+hpack==4.1.0
 httpcore==1.0.9
 httptools==0.6.4
 httpx==0.28.1
 hurst==0.0.5
+Hypercorn==0.17.3
+hyperframe==6.1.0
 idna==3.10
 investpy==1.0.8
 Jinja2==3.1.5
@@ -79,6 +83,7 @@ patsy==1.0.1
 peewee==3.17.9
 pillow==11.1.0
 platformdirs==4.3.6
+priority==2.0.0
 propcache==0.3.0
 protobuf==5.29.3
 psycopg2==2.9.10
@@ -116,6 +121,7 @@ starlette==0.46.2
 statsmodels==0.14.4
 sympy==1.13.1
 ta==0.11.0
+taskgroup==0.2.2
 tensorboard==2.18.0
 tensorboard-data-server==0.7.2
 tensorboard-plugin-wit==1.8.1
@@ -123,6 +129,7 @@ tensorflow==2.18.0
 tensorflow-estimator==2.11.0
 termcolor==2.5.0
 threadpoolctl==3.5.0
+tomli==2.2.1
 torch==2.5.1
 torchaudio==2.5.1
 torchmetrics==1.6.1
@@ -139,5 +146,6 @@ watchfiles==1.0.5
 websockets==15.0.1
 Werkzeug==3.1.3
 wrapt==1.17.2
+wsproto==1.2.0
 yarl==1.18.3
 yfinance==0.2.53
