@@ -41,12 +41,13 @@ def log_message(message: str):
         session.close()
 
 # Modifica las consultas así:
-def create_table_if_not_exists():
+def create_table_if_not_exists(table_name: str):
     """Crea la tabla con nombres de columnas consistentes"""
     session = Session()
     try:
-        session.execute(text("""
-            CREATE TABLE IF NOT EXISTS eur_usd (
+        # Usar texto sin formato con parámetros de SQLAlchemy
+        sql = f"""
+            CREATE TABLE IF NOT EXISTS "{table_name}" (
                 fecha TIMESTAMP PRIMARY KEY,
                 último DOUBLE PRECISION,
                 apertura DOUBLE PRECISION,
@@ -55,12 +56,14 @@ def create_table_if_not_exists():
                 vol DOUBLE PRECISION,
                 var DOUBLE PRECISION
             );
-        """))
+        """
+        session.execute(text(sql))
         session.commit()
-        print("✅ Tabla creada con nombres estandarizados")
+        print(f"✅ Tabla '{table_name}' creada/verificada con éxito")
     except Exception as e:
         session.rollback()
-        print(f"🚨 Error al crear tabla: {e}")
+        print(f"🚨 Error al crear/verificar tabla '{table_name}': {e}")
+        raise  # Relanzar la excepción para manejo posterior
     finally:
         session.close()
 
@@ -106,43 +109,77 @@ def validate_data(df: pd.DataFrame) -> bool:
     log_message("✅ Datos validados correctamente~!")
     return True
 
-def check_existing_dates(df: pd.DataFrame, table_name: str = "eur_usd") -> pd.DataFrame:
-    """Filtra fechas que ya existen en la base de datos (insensible a mayúsculas)"""
+def check_existing_dates(df: pd.DataFrame, table_name: str) -> pd.DataFrame:
+    """
+    Filtra fechas que ya existen en la base de datos, retornando solo las filas
+    cuyas fechas no existen en la tabla especificada.
+    
+    Args:
+        df: DataFrame con los datos a filtrar. Debe tener un índice de tipo datetime.
+        table_name: Nombre de la tabla en la base de datos a verificar.
+        
+    Returns:
+        DataFrame con solo las filas cuyas fechas no existen en la base de datos.
+    """
     if df.empty:
         return df
 
     try:
-        # Consulta con nombres exactos (en minúsculas)
-        query = text("""
-            SELECT fecha 
-            FROM eur_usd 
+        # 1. Verificar que el índice sea de tipo datetime
+        if not isinstance(df.index, pd.DatetimeIndex):
+            print("⚠️ El índice del DataFrame no es de tipo datetime")
+            return df
+            
+        # 2. Obtener fechas únicas del DataFrame
+        fechas_unicas = df.index.unique()
+        if len(fechas_unicas) == 0:
+            return df
+            
+        # 3. Consultar fechas existentes en la base de datos
+        query = text(f'''
+            SELECT DISTINCT fecha 
+            FROM "{table_name}" 
             WHERE fecha BETWEEN :min_date AND :max_date
-        """)
+        ''')
         
         existing_dates = pd.read_sql(
             query,
             con=engine,
-            params={'min_date': df.index.min(), 'max_date': df.index.max()}
+            params={'min_date': fechas_unicas.min(), 'max_date': fechas_unicas.max()}
         )
         
-        # Filtrar el DataFrame original
-        if not existing_dates.empty:
-            existing_dates['fecha'] = pd.to_datetime(existing_dates['fecha'])
-            return df[~df.index.isin(existing_dates['fecha'])]
+        # 4. Si no hay fechas existentes, retornar el DataFrame completo
+        if existing_dates.empty:
+            print("ℹ️ No se encontraron fechas existentes en el rango especificado")
+            return df
+            
+        # 5. Convertir fechas existentes a datetime y crear un conjunto para búsqueda rápida
+        existing_dates['fecha'] = pd.to_datetime(existing_dates['fecha'])
+        fechas_existentes_set = set(existing_dates['fecha'])
         
-        return df
+        # 6. Filtrar el DataFrame original
+        mascara = ~df.index.isin(fechas_existentes_set)
+        filas_a_mantener = mascara.sum()
+        
+        if filas_a_mantener == 0:
+            print("ℹ️ Todas las fechas ya existen en la base de datos")
+        else:
+            print(f"📅 Se encontraron {len(df) - filas_a_mantener} fechas existentes de {len(df)} totales")
+            print(f"📌 Se mantendrán {filas_a_mantener} filas para subir")
+            
+        return df[mascara]
         
     except Exception as e:
         print(f"⚠️ Error al verificar fechas: {str(e)}")
         return df  # Si hay error, retorna el DataFrame sin filtrar
 def save_data_to_db(df: pd.DataFrame, table_name: str):
     """Guarda el DataFrame a la base de datos, evitando duplicados."""
+    
     if df is not None and not df.empty:
         print(f"🌸 Subiendo datos a la tabla '{table_name}'...")
         
         # Verificar si hay datos duplicados por fecha
-        df = check_existing_dates(df, table_name)
-        
+        df = check_existing_dates(df, table_name)  
         if not df.empty:
             try:
                 df.to_sql(
@@ -179,12 +216,13 @@ def desnormalize_column_names (df: pd.DataFrame) -> pd.DataFrame:
 
 def get_df(from_date: str = None, to_date: str = None , table_name: str = None) -> pd.DataFrame:
     """
-    Obtiene todos los datos históricos de la tabla eur_usd
+    Obtiene todos los datos históricos de la tabla {table_name}
     con opción de filtrar por rango de fechas.
     
     Parámetros:
         from_date (str): Fecha inicial en formato 'YYYY-MM-DD' (opcional)
         to_date (str): Fecha final en formato 'YYYY-MM-DD' (opcional)
+        table_name (str): Nombre de la tabla
     
     Retorna:
         pd.DataFrame: DataFrame con los datos solicitados
@@ -231,11 +269,11 @@ def get_df(from_date: str = None, to_date: str = None , table_name: str = None) 
 
 # 🛠️ MAIN FLOW
 if __name__ == "__main__":
-    create_table_if_not_exists()  # Asegura que la tabla exista
+    table_name = DEFAULT_PARAMS.TABLENAME  # Nombre de la tabla en la base de datos
+    create_table_if_not_exists(table_name=table_name)  # Asegura que la tabla exista
 
-    table_name = "eur_usd"  # Nombre de la tabla en la base de datos
-    get_df(table_name=table_name)  # Obtener datos existentes
-    df = None #load_and_prepare_data(DEFAULT_PARAMS.FILEPATH)
+    #df =get_df(table_name=table_name)  # Obtener datos existentes
+    df = load_and_prepare_data(DEFAULT_PARAMS.FILEPATH)
 
     if df is not None:
         df = normalize_column_names(df)
@@ -251,15 +289,17 @@ if __name__ == "__main__":
 
         # Validación de datos
         if validate_data(df):
-            print("✨ Datos validados, procediendo a guardar...")
-            log_message("✨ Datos validados, procediendo a guardar...")
+            print(" Datos validados, procediendo a guardar...")
+            log_message(" Datos validados, procediendo a guardar...")
+            # Guardar los datos en la base de datos
+            save_data_to_db(df, table_name)
         else:
-            print("🚫 Datos no válidos, abortando subida.")
-            log_message("🚫 Datos no válidos, abortando subida.")
-            exit()
-
-        # Guardar los datos en la base de datos
-        save_data_to_db(df, table_name)
+            print(" Datos no válidos, abortando subida.")
+            log_message(" Datos no válidos, abortando subida.")
+            import sys
+            sys.exit(0)
     else:
         print("🚫 No se cargaron datos, abortando subida.")
         log_message("🚫 No se cargaron datos, abortando subida.")
+        import sys
+        sys.exit(0)

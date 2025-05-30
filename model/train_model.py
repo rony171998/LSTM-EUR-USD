@@ -12,8 +12,8 @@ from hurst import compute_Hc
 from sklearn.preprocessing import RobustScaler
 import time
 from datetime import timedelta
-from model.config import DEFAULT_PARAMS
-from model.modelos import (
+from config import DEFAULT_PARAMS
+from modelos import (
     TLS_LSTMModel,
     GRU_Model,
     HybridLSTMAttentionModel,
@@ -163,7 +163,7 @@ def train_model(model, train_loader, epochs, patience, learning_rate):
         if avg_train_loss < best_loss:
             # print(f'Pérdida mejorada ({best_loss:.6f} --> {avg_train_loss:.6f}). Guardando modelo...')
             best_loss = avg_train_loss
-            torch.save(model.state_dict(), best_model_path)
+            torch.save(model.state_dict(), f"modelos/{best_model_path}")
             epochs_no_improve = 0
         else:
             epochs_no_improve += 1
@@ -179,8 +179,8 @@ def train_model(model, train_loader, epochs, patience, learning_rate):
 
     print("--- Entrenamiento Finalizado ---")
     # Cargar el mejor modelo encontrado durante el entrenamiento
-    print(f"Cargando el mejor modelo guardado en: {best_model_path}")
-    model.load_state_dict(torch.load(best_model_path))
+    print(f"Cargando el mejor modelo guardado en: modelos/{best_model_path}")
+    model.load_state_dict(torch.load(f"modelos/{best_model_path}"))
     return model
 
 def add_indicator(data, rsi_window=14, sma_window=20):
@@ -234,9 +234,9 @@ def run_training(params=DEFAULT_PARAMS):
         test_scaled = scaler.transform(test_data)
 
         # Guardar el scaler para uso futuro
-        scaler_filename = f"{params.FILEPATH}_scaler.pkl"
+        scaler_filename = f"modelos/{params.FILEPATH}_scaler.pkl"
         joblib.dump(scaler, scaler_filename)
-        print(f"Scaler guardado en: {scaler_filename}")
+        print(f"Scaler guardado en: modelos/{scaler_filename}")
 
         # 4. Crear secuencias para Train y Test
         print(f"\nCreando secuencias con longitud={params.SEQ_LENGTH}, horizonte={params.FORECAST_HORIZON}...")
@@ -299,7 +299,7 @@ def run_training(params=DEFAULT_PARAMS):
         print(f"RMSE en Test: {rmse:.6f}")
 
         # 10. Guardar el Modelo Final (opcional, ya que train_model guarda el mejor)
-        print(f"El mejor modelo del entrenamiento se encuentra en: {params.MODELPATH}")
+        print(f"El mejor modelo del entrenamiento se encuentra en: modelos/{params.MODELPATH}")
 
         # Calcular y mostrar duración del entrenamiento
         end_time = time.time()

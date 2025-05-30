@@ -69,7 +69,6 @@ if __name__ == "__main__":
 
     # 3. Cargar Datos Históricos
     df = load_and_prepare_data(FILEPATH)
-    df2025 = load_and_prepare_data("EUR_USD_2025_01_01 - 2025_03_08.csv")
     # Después de cargar df, añade el RSI
     # Obtener todos los indicadores de forma dinámica
     indicators = add_indicator(df)
@@ -162,45 +161,13 @@ if __name__ == "__main__":
             df[TARGET_COLUMN].iloc[-HISTORICAL_DAYS_TO_PLOT:],
             label="Histórico Reciente", color="blue")
 
-    # Graficar datos de 2025 (si existen)
-    if df2025 is not None and len(df2025) > 0:
-        plt.plot(df2025.index,
-                df2025[TARGET_COLUMN],
-                label="Datos Reales 2025", color="green")
-
-    common_dates = df_future.index.intersection(df2025.index)
-
-    if len(common_dates) > 0:
-        y_true = df2025.loc[common_dates, TARGET_COLUMN].values
-        y_pred = df_future.loc[common_dates, 'Predicción'].values
-
-        # Calcular métricas
-        mae = mean_absolute_error(y_true, y_pred)
-        mse = mean_squared_error(y_true, y_pred)
-        rmse = np.sqrt(mse)
-        r2 = r2_score(y_true, y_pred)
-        mape = np.mean(np.abs((y_true - y_pred) / y_true)) * 100
-
-        # Mostrar métricas en consola
-        print("\n🔍 Métricas de evaluación:")
-        print(f"MAE: {mae:.4f}")
-        print(f"MSE: {mse:.4f}")
-        print(f"RMSE: {rmse:.4f}")
-        print(f"R²: {r2:.4f}")
-        print(f"MAPE: {mape:.2f}%")
-
-        # Agregar métricas al gráfico
-        metrics_text = f"MAE: {mae:.4f}\nMSE: {mse:.4f}\nRMSE: {rmse:.4f}\nR²: {r2:.4f}\nMAPE: {mape:.2f}%"
-        plt.gcf().text(0.75, 0.45, metrics_text, fontsize=10, bbox=dict(facecolor='white', alpha=0.6))
-    else:
-        print("⚠️ No hay fechas comunes entre predicción y datos reales para evaluar.")
     # Graficar predicciones futuras
     plt.plot(df_future.index,
             df_future['Predicción'],
             label=f"Predicción Futura ({FUTURE_STEPS_TO_PREDICT} días)", color="red", linestyle='--')
 
     plt.title(f"Predicción Futura ({FILEPATH}) con TLS-LSTM")
-    plt.xlabel("Fecha")
+    plt.xlabel("Fecha")  
     plt.ylabel("Precio")
     plt.legend()
     plt.grid(True)
@@ -208,7 +175,7 @@ if __name__ == "__main__":
     plt.tight_layout()
 
     # Guardar la figura antes de mostrarla
-    plt.savefig(f"images/prediccion/{MODEL_PATH}.png",
+    plt.savefig(f"images/prediccion/1{MODEL_PATH}.png",
                 dpi=300, bbox_inches='tight')
 
     plt.show()

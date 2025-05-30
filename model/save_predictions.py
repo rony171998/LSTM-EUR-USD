@@ -2,6 +2,7 @@ import pandas as pd
 from datetime import datetime
 import sys
 import os
+from config import DEFAULT_PARAMS
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
@@ -105,7 +106,7 @@ def generate_predictions(days_to_predict: int, model_name: str, ticker: str) -> 
         logging.error(f"🚨 Error generando predicciones: {model_name} - {ticker}: {str(e)}")
         raise
 
-def generate_all_models_predictions(days_to_predict: int = 30, tickers: list = ["EUR/USD"]):
+def generate_all_models_predictions(days_to_predict: int = 30, tickers: list = [DEFAULT_PARAMS.TICKER]):
     models = ["GRU_Model", "TLS_LSTMModel", "BidirectionalDeepLSTM", "HybridLSTMAttention"]
     all_predictions = {}
 
@@ -121,5 +122,5 @@ def generate_all_models_predictions(days_to_predict: int = 30, tickers: list = [
     return all_predictions
 
 if __name__ == "__main__":
-    predictions = generate_all_models_predictions(days_to_predict=30, tickers=["EUR/USD"])
+    predictions = generate_all_models_predictions(days_to_predict=30, tickers=[DEFAULT_PARAMS.TICKER])
     print(f"✅ Proceso completo. Total modelos procesados: {len(predictions)}")

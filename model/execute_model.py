@@ -8,7 +8,8 @@ from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 from train_model import (
     add_indicator,
     get_model,
-    device
+    device,
+    load_and_prepare_data
 )
 from save_data import get_df
 from config import DEFAULT_PARAMS
@@ -43,8 +44,8 @@ def create_sequences(data, seq_length, forecast_horizon):
 
 if __name__ == "__main__":
     # 1. Cargar los datos (similar al script de entrenamiento)
-    ##df = load_and_prepare_data(FILEPATH)
-    df = get_df(table_name="eur_usd")  # Cambia esto según necesites
+    df = load_and_prepare_data(FILEPATH)
+    #df = get_df(table_name="eur_usd")  # Cambia esto según necesites
 
     # Después de cargar df, añade el RSI
     # Obtener todos los indicadores de forma dinámica
