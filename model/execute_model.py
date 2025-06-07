@@ -117,7 +117,7 @@ if __name__ == "__main__":
                         output_size=FORECAST_HORIZON,
                         dropout_prob=DROPOUT_PROB).to(device)
     try:
-        model.load_state_dict(torch.load(f"modelos/{MODEL_PATH}", map_location=device), strict=True)
+        model.load_state_dict(torch.load(f"{MODEL_PATH}", map_location=device), strict=True)
     except FileNotFoundError:
         print(f"Error: Archivo del modelo no encontrado en {MODEL_PATH}.")
         print("Asegúrate de haber ejecutado train_model.py primero y que haya guardado el modelo.")
@@ -202,7 +202,7 @@ if __name__ == "__main__":
     )
 
     # Configuración del gráfico
-    ax1.set_title(f"Comparación Real vs. Predicción LSTM ({FILEPATH})", fontsize=14, pad=20)
+    ax1.set_title(f"Comparación Real vs. Predicción LSTM ({FILEPATH}) con {DEFAULT_PARAMS.MODELNAME}", fontsize=14, pad=20)
     ax1.set_xlabel("Fecha", fontsize=12)
     ax1.set_ylabel("Precio", fontsize=12)
     ax1.legend(fontsize=12)

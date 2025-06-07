@@ -34,7 +34,7 @@ def predict_future_prices(request: PredictRequest):
         params = ModelParams()
         params.MODELNAME = request.model_name
         params.MODELPATH = f"{params.MODELNAME}_{params.FILEPATH}.pth"
-        params.SCALER_PATH = f"modelos/{params.FILEPATH}_scaler.pkl"
+        params.SCALER_PATH = f"{params.FILEPATH}_scaler.pkl"
         
         # Verificar que los archivos existan
         model_path = os.path.join("modelos", params.MODELPATH)

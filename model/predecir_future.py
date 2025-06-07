@@ -57,7 +57,7 @@ if __name__ == "__main__":
                       dropout_prob=DROPOUT_PROB).to(device)
     try:
         model.load_state_dict(torch.load(
-            f"modelos/{MODEL_PATH}", map_location=device))
+            f"{MODEL_PATH}", map_location=device))
         model.eval()  # Poner en modo evaluación
         print("Modelo cargado y en modo evaluación.")
     except FileNotFoundError:
@@ -166,7 +166,7 @@ if __name__ == "__main__":
             df_future['Predicción'],
             label=f"Predicción Futura ({FUTURE_STEPS_TO_PREDICT} días)", color="red", linestyle='--')
 
-    plt.title(f"Predicción Futura ({FILEPATH}) con TLS-LSTM")
+    plt.title(f"Predicción Futura ({FILEPATH}) con {DEFAULT_PARAMS.MODELNAME}")
     plt.xlabel("Fecha")  
     plt.ylabel("Precio")
     plt.legend()
@@ -175,7 +175,7 @@ if __name__ == "__main__":
     plt.tight_layout()
 
     # Guardar la figura antes de mostrarla
-    plt.savefig(f"images/prediccion/1{MODEL_PATH}.png",
+    plt.savefig(f"images/prediccion/{MODEL_PATH}.png",
                 dpi=300, bbox_inches='tight')
 
     plt.show()

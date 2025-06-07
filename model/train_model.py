@@ -18,11 +18,12 @@ from modelos import (
     GRU_Model,
     HybridLSTMAttentionModel,
     BidirectionalDeepLSTMModel,
+    ContextualLSTMTransformerFlexible,
 )
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print(f"Usando dispositivo: {device}")
 
-# 1. Carga y preparación de datos con análisis de Hurst
+# 1. Carga y preparación de datos con análisis de Hurstf
 def load_and_prepare_data(filepath: str) -> pd.DataFrame:
     """Carga y preprocesa los datos del archivo CSV."""
     print(f"📂 Cargando datos desde: data/{filepath}")
@@ -118,6 +119,19 @@ def get_model(input_size, hidden_size, output_size, dropout_prob):
         return GRU_Model(input_size, hidden_size, output_size, dropout_prob)
     elif(DEFAULT_PARAMS.MODELNAME == "TLS_LSTMModel"):  
         return TLS_LSTMModel(input_size, hidden_size, output_size, dropout_prob)
+    elif DEFAULT_PARAMS.MODELNAME == "ContextualLSTMTransformerFlexible":
+        return ContextualLSTMTransformerFlexible(
+            seq_len=DEFAULT_PARAMS.SEQ_LENGTH,
+            feature_dim=input_size,
+            output_size=DEFAULT_PARAMS.FORECAST_HORIZON,
+            window_size=DEFAULT_PARAMS.WINDOW_SIZE,
+            max_neighbors=DEFAULT_PARAMS.MAX_NEIGHBORS,
+            lstm_units=DEFAULT_PARAMS.LSTM_UNITS,
+            num_heads=DEFAULT_PARAMS.NUM_HEADS,
+            embed_dim=DEFAULT_PARAMS.EMBED_DIM,
+            dropout_rate=DEFAULT_PARAMS.DROPOUT_PROB,
+        )
+
     else:
         return TLS_LSTMModel(input_size, hidden_size, output_size, dropout_prob)    
 # 4. Entrenamiento con early stopping
@@ -163,7 +177,7 @@ def train_model(model, train_loader, epochs, patience, learning_rate):
         if avg_train_loss < best_loss:
             # print(f'Pérdida mejorada ({best_loss:.6f} --> {avg_train_loss:.6f}). Guardando modelo...')
             best_loss = avg_train_loss
-            torch.save(model.state_dict(), f"modelos/{best_model_path}")
+            torch.save(model.state_dict(), f"{best_model_path}")
             epochs_no_improve = 0
         else:
             epochs_no_improve += 1
@@ -179,9 +193,70 @@ def train_model(model, train_loader, epochs, patience, learning_rate):
 
     print("--- Entrenamiento Finalizado ---")
     # Cargar el mejor modelo encontrado durante el entrenamiento
-    print(f"Cargando el mejor modelo guardado en: modelos/{best_model_path}")
-    model.load_state_dict(torch.load(f"modelos/{best_model_path}"))
+    print(f"Cargando el mejor modelo guardado en: {best_model_path}")
+    model.load_state_dict(torch.load(f"{best_model_path}"))
     return model
+
+def train_models2(model,train_loader,val_loader):
+    criterion = torch.nn.MSELoss()
+    optimizer = torch.optim.Adam(model.parameters(), lr=DEFAULT_PARAMS.LEARNING_RATE)
+    n_epochs = DEFAULT_PARAMS.EPOCHS
+    best_val_loss = float('inf')
+    best_model_state = None
+    patience = DEFAULT_PARAMS.PATIENCE
+    epochs_no_improve = 0
+
+    model.train()
+    train_loss_list = []
+    val_loss_list = []
+    for epoch in range(n_epochs):
+        epoch_loss = 0.0
+        for xb, yb in train_loader:
+            xb, yb = xb.to(device), yb.to(device)
+            optimizer.zero_grad()
+            preds = model(xb)
+            # Asegurar que yb tenga la misma forma que preds
+            if len(yb.shape) < len(preds.shape):
+                yb = yb.unsqueeze(-1)  # Añadir dimensión extra si es necesario
+            loss = criterion(preds, yb)
+            loss.backward()
+            optimizer.step()
+            epoch_loss += loss.item() * xb.size(0)
+        train_loss = epoch_loss / len(train_loader.dataset)
+        train_loss_list.append(train_loss)
+
+        # Evaluation
+        model.eval()
+        
+        val_loss = 0.0
+        with torch.no_grad():
+            for xb, yb in val_loader:
+                xb, yb = xb.to(device), yb.to(device)
+                preds = model(xb)
+                # Asegurar que yb tenga la misma forma que preds
+                if len(yb.shape) < len(preds.shape):
+                    yb = yb.unsqueeze(-1)  # Añadir dimensión extra si es necesario
+                loss = criterion(preds, yb)
+                val_loss += loss.item() * xb.size(0)
+        val_loss /= len(val_loader.dataset)
+        val_loss_list.append(val_loss)
+        print(f"Epoch {epoch+1}/{n_epochs} - Train Loss: {train_loss:.6f} - Val Loss: {val_loss:.6f}")
+
+        # Save best model state and handle patience
+        if val_loss < best_val_loss:
+            best_val_loss = val_loss
+            best_model_state = {k: v.cpu().clone() for k, v in model.state_dict().items()}
+            epochs_no_improve = 0
+        else:
+            epochs_no_improve += 1
+            if epochs_no_improve >= patience:
+                torch.save(best_model_state, ""+DEFAULT_PARAMS.MODELPATH)
+                print(f"Early stopping at epoch {epoch+1} due to no improvement in val_loss for {patience} epochs.")
+                break
+
+        model.train()
+        model.load_state_dict(best_model_state)
+    return model, train_loss_list, val_loss_list
 
 def add_indicator(data, rsi_window=14, sma_window=20):
     """Calcula múltiples indicadores técnicos y los devuelve en un diccionario"""
@@ -234,9 +309,9 @@ def run_training(params=DEFAULT_PARAMS):
         test_scaled = scaler.transform(test_data)
 
         # Guardar el scaler para uso futuro
-        scaler_filename = f"modelos/{params.FILEPATH}_scaler.pkl"
+        scaler_filename = f"{params.SCALER_PATH}"
         joblib.dump(scaler, scaler_filename)
-        print(f"Scaler guardado en: modelos/{scaler_filename}")
+        print(f"Scaler guardado en: {scaler_filename}")
 
         # 4. Crear secuencias para Train y Test
         print(f"\nCreando secuencias con longitud={params.SEQ_LENGTH}, horizonte={params.FORECAST_HORIZON}...")
@@ -264,7 +339,14 @@ def run_training(params=DEFAULT_PARAMS):
             torch.tensor(X_train, dtype=torch.float32),
             torch.tensor(y_train, dtype=torch.float32)
         )
+
+        val_dataset = TensorDataset(
+            torch.tensor(X_test, dtype=torch.float32),
+            torch.tensor(y_test, dtype=torch.float32)
+        )
+        
         train_loader = DataLoader(train_dataset, batch_size=params.BATCH_SIZE, shuffle=True)  # Shuffle para entrenamiento
+        val_loader = DataLoader(val_dataset, batch_size=params.BATCH_SIZE, shuffle=False)
 
         # 7. Inicializar el Modelo TLS-LSTM
         model = get_model(input_size=len(features),
@@ -281,6 +363,10 @@ def run_training(params=DEFAULT_PARAMS):
                             epochs=params.EPOCHS,
                             patience=params.PATIENCE,
                             learning_rate=params.LEARNING_RATE)
+
+        # model, _, _ = train_models2(model,
+        #                     train_loader,
+        #                     val_loader)
 
         # 9. (Opcional) Evaluar en el conjunto de Test
         model.eval()  # Poner el modelo en modo evaluación (desactiva dropout, etc.)
@@ -299,7 +385,7 @@ def run_training(params=DEFAULT_PARAMS):
         print(f"RMSE en Test: {rmse:.6f}")
 
         # 10. Guardar el Modelo Final (opcional, ya que train_model guarda el mejor)
-        print(f"El mejor modelo del entrenamiento se encuentra en: modelos/{params.MODELPATH}")
+        print(f"El mejor modelo del entrenamiento se encuentra en: {params.MODELPATH}")
 
         # Calcular y mostrar duración del entrenamiento
         end_time = time.time()
