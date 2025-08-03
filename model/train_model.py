@@ -12,6 +12,7 @@ from hurst import compute_Hc
 from sklearn.preprocessing import RobustScaler
 import time
 from datetime import timedelta
+import argparse
 from config import DEFAULT_PARAMS
 from modelos import (
     TLS_LSTMModel,
@@ -19,6 +20,8 @@ from modelos import (
     HybridLSTMAttentionModel,
     BidirectionalDeepLSTMModel,
     ContextualLSTMTransformerFlexible,
+    NaiveForecastModel,
+    ARIMAModel,
 )
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print(f"Usando dispositivo: {device}")
@@ -26,10 +29,13 @@ print(f"Usando dispositivo: {device}")
 # 1. Carga y preparación de datos con análisis de Hurstf
 def load_and_prepare_data(filepath: str) -> pd.DataFrame:
     """Carga y preprocesa los datos del archivo CSV."""
-    print(f"📂 Cargando datos desde: data/{filepath}")
+    # Usar pathlib para construir rutas relativas robustas
+    from pathlib import Path
+    data_path = Path(__file__).parent.parent / "data" / filepath
+    print(f"- Cargando datos desde: {data_path}")
     try:
         df = pd.read_csv(
-            f"data/{filepath}",
+            data_path,
             index_col="Fecha",
             parse_dates=True,
             dayfirst=True,
@@ -47,50 +53,50 @@ def load_and_prepare_data(filepath: str) -> pd.DataFrame:
         df = df.sort_index(ascending=True)
         df = df.dropna(subset=["Último"])
         
-        print(f"✅ Datos cargados: {df.shape[0]} filas")
-        print(f"📅 Periodo: {df.index.min()} a {df.index.max()}")
+        print(f"- Datos cargados: {df.shape[0]} filas")
+        print(f"- Periodo: {df.index.min()} a {df.index.max()}")
 
         # 🎯 Calcular Hurst
         try:
             ultimo_series = df["Último"].dropna().values
             if len(ultimo_series) > 100:
                 H, c, data_hurst = compute_Hc(ultimo_series, kind='price', simplified=True)
-                print(f"📈 Exponente de Hurst (H): {H:.4f}")
+                print(f"- Exponente de Hurst (H): {H:.4f}")
                 if H > 0.55:
-                    print("✨ Tendencia persistente (H > 0.5)")
+                    print("- Tendencia persistente (H > 0.5)")
                 elif H < 0.45:
-                    print("⚡ Anti-persistente (H < 0.5)")
+                    print("- Anti-persistente (H < 0.5)")
                 else:
-                    print("🔮 Posible paseo aleatorio (H ≈ 0.5)")
+                    print("- Posible paseo aleatorio (H aprox 0.5)")
             else:
-                print("🙈 No suficientes datos para Hurst.")
+                print("- No suficientes datos para Hurst.")
         except Exception as e:
-            print(f"🚨 Error en Hurst: {e}")
+            print(f"- Error en Hurst: {e}")
 
         # 🎯 Test ADF
         try:
             ultimo_series_adf = df["Último"].dropna().values
             if len(ultimo_series_adf) > 0:
                 adf_result = adfuller(ultimo_series_adf)
-                print(f"\n🧪 Test ADF:")
-                print(f"  Estadístico ADF: {adf_result[0]:.4f}")
+                print(f"\n- Test ADF:")
+                print(f"  Estadistico ADF: {adf_result[0]:.4f}")
                 print(f"  p-valor: {adf_result[1]:.4f}")
                 if adf_result[1] <= 0.05:
-                    print("🌟 Serie estacionaria (p <= 0.05)")
+                    print("- Serie estacionaria (p <= 0.05)")
                 else:
-                    print("💤 Serie NO estacionaria (p > 0.05)")
+                    print("- Serie NO estacionaria (p > 0.05)")
             else:
-                print("🚫 Sin datos para ADF.")
+                print("- Sin datos para ADF.")
         except Exception as e:
-            print(f"🚨 Error en ADF: {e}")
+            print(f"- Error en ADF: {e}")
 
         return df
     
     except FileNotFoundError:
-        print(f"🚫 Archivo no encontrado: data/{filepath}")
+        print(f"- Archivo no encontrado: data/{filepath}")
         return None
     except Exception as e:
-        print(f"🚨 Error inesperado: {e}")
+        print(f"- Error inesperado: {e}")
         return None
 
 # 2. Creación de secuencias
@@ -108,18 +114,21 @@ def create_sequences(data, seq_length, forecast_horizon):
     return np.array(sequences), np.array(labels)
 
 # 3. Modelo Two-Layer Stacked LSTM (TLS-LSTM)
-def get_model(input_size, hidden_size, output_size, dropout_prob):
-    if(DEFAULT_PARAMS.MODELNAME == "BidirectionalDeepLSTM"):
+def get_model(input_size, hidden_size, output_size, dropout_prob, model_name=None):
+    if model_name is None:
+        model_name = DEFAULT_PARAMS.MODELNAME
+        
+    if(model_name == "BidirectionalDeepLSTM"):
         return BidirectionalDeepLSTMModel(input_size, hidden_size, output_size, dropout_prob)
-    elif(DEFAULT_PARAMS.MODELNAME == "HybridLSTMAttention"):
+    elif(model_name == "HybridLSTMAttention"):
         return HybridLSTMAttentionModel(input_size, hidden_size, output_size, dropout_prob)
-    elif(DEFAULT_PARAMS.MODELNAME == "TemporalAutoencoderLSTM"):
-        return TemporalAutoencoderLSTM(input_size, hidden_size, output_size, dropout_prob)
-    elif(DEFAULT_PARAMS.MODELNAME == "GRU_Model"):  
+    # elif(model_name == "TemporalAutoencoderLSTM"):
+    #     return TemporalAutoencoderLSTM(input_size, hidden_size, output_size, dropout_prob)
+    elif(model_name == "GRU_Model"):  
         return GRU_Model(input_size, hidden_size, output_size, dropout_prob)
-    elif(DEFAULT_PARAMS.MODELNAME == "TLS_LSTMModel"):  
+    elif(model_name == "TLS_LSTMModel"):  
         return TLS_LSTMModel(input_size, hidden_size, output_size, dropout_prob)
-    elif DEFAULT_PARAMS.MODELNAME == "ContextualLSTMTransformerFlexible":
+    elif model_name == "ContextualLSTMTransformerFlexible":
         return ContextualLSTMTransformerFlexible(
             seq_len=DEFAULT_PARAMS.SEQ_LENGTH,
             feature_dim=input_size,
@@ -131,7 +140,16 @@ def get_model(input_size, hidden_size, output_size, dropout_prob):
             embed_dim=DEFAULT_PARAMS.EMBED_DIM,
             dropout_rate=DEFAULT_PARAMS.DROPOUT_PROB,
         )
-
+    elif model_name == "NaiveForecastModel":
+        return NaiveForecastModel(
+            input_size=input_size,
+            output_size=output_size
+        )
+    elif model_name == "ARIMAModel":
+        return ARIMAModel(
+            input_size=input_size,
+            output_size=output_size
+        )
     else:
         return TLS_LSTMModel(input_size, hidden_size, output_size, dropout_prob)    
 # 4. Entrenamiento con early stopping
@@ -352,17 +370,36 @@ def run_training(params=DEFAULT_PARAMS):
         model = get_model(input_size=len(features),
                             hidden_size=params.HIDDEN_SIZE,
                             output_size=params.FORECAST_HORIZON,
-                            dropout_prob=params.DROPOUT_PROB).to(device)
+                            dropout_prob=params.DROPOUT_PROB,
+                            model_name=params.MODELNAME).to(device)
 
-        print("\nModelo TLS-LSTM Definido:")
+        print(f"\nModelo {params.MODELNAME} Definido:")
         print(model)
 
-        # 8. Entrenar el Modelo
-        model = train_model(model=model,
-                            train_loader=train_loader,
-                            epochs=params.EPOCHS,
-                            patience=params.PATIENCE,
-                            learning_rate=params.LEARNING_RATE)
+        # 8. Entrenar el Modelo (o evaluar si es Naive/ARIMA)
+        if params.MODELNAME == "NaiveForecastModel":
+            print("\n--- Modelo Naive: No requiere entrenamiento ---")
+            print("El modelo Naive simplemente predice que el valor de mañana será igual al de hoy.")
+            # Guardar el modelo (aunque no tiene parámetros entrenables)
+            torch.save(model.state_dict(), f"{params.MODELPATH}")
+            print(f"Modelo Naive guardado en: {params.MODELPATH}")
+        elif params.MODELNAME == "ARIMAModel":
+            print("\n--- Modelo ARIMA: Ajustando parámetros estadísticos ---")
+            print("El modelo ARIMA utiliza métodos estadísticos clásicos para predicción de series temporales.")
+            
+            # Ajustar ARIMA con los datos de entrenamiento (sin escalar)
+            train_data_original = df[params.TARGET_COLUMN].iloc[:split_index].values
+            model.fit_arima(train_data_original)
+            
+            # Guardar el modelo
+            torch.save(model.state_dict(), f"{params.MODELPATH}")
+            print(f"Modelo ARIMA guardado en: {params.MODELPATH}")
+        else:
+            model = train_model(model=model,
+                                train_loader=train_loader,
+                                epochs=params.EPOCHS,
+                                patience=params.PATIENCE,
+                                learning_rate=params.LEARNING_RATE)
 
         # model, _, _ = train_models2(model,
         #                     train_loader,
@@ -396,4 +433,36 @@ def run_training(params=DEFAULT_PARAMS):
         print("\nNo se pudo cargar o procesar el archivo de datos. Saliendo.")
 
 if __name__ == "__main__":
-    run_training()
+    # Agregar soporte para argumentos de línea de comandos
+    parser = argparse.ArgumentParser(description='Entrenar modelos de predicción financiera')
+    parser.add_argument('--model_name', type=str, default=None, 
+                       help='Nombre del modelo a entrenar (ej: ARIMAModel, NaiveForecastModel, TLS_LSTMModel)')
+    parser.add_argument('--data_file', type=str, default=None,
+                       help='Archivo de datos a usar (ej: EUR_USD_2010-2024.csv)')
+    
+    args = parser.parse_args()
+    
+    # Crear una copia de los parámetros por defecto
+    params = DEFAULT_PARAMS
+    
+    # Sobrescribir parámetros si se proporcionan argumentos
+    if args.model_name:
+        params.MODELNAME = args.model_name
+        # Actualizar el path del modelo basado en el nombre
+        base_name = params.FILEPATH.replace('.csv', '')
+        params.MODELPATH = f"modelos/eur_usd/{args.model_name}_{base_name}.pth"
+        params.SCALER_PATH = f"modelos/{base_name}_scaler.pkl"
+    
+    if args.data_file:
+        params.FILEPATH = args.data_file
+        # Actualizar paths relacionados
+        base_name = args.data_file.replace('.csv', '')
+        if args.model_name:
+            params.MODELPATH = f"modelos/eur_usd/{args.model_name}_{base_name}.pth"
+        params.SCALER_PATH = f"modelos/{base_name}_scaler.pkl"
+    
+    print(f"Entrenando modelo: {params.MODELNAME}")
+    print(f"Archivo de datos: {params.FILEPATH}")
+    print(f"Modelo se guardará en: {params.MODELPATH}")
+    
+    run_training(params)
