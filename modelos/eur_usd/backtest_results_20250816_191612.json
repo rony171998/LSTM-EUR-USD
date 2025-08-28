@@ -1,0 +1,314 @@
+{
+  "timestamp": "2025-08-16 19:16:12",
+  "config": {
+    "initial_capital": 10000,
+    "transaction_cost": 0.0001
+  },
+  "best_strategy": {
+    "name": "Random Trading",
+    "metrics": {
+      "total_return": 18.584691593304292,
+      "annualized_return": 1.1126674953229054,
+      "buy_hold_return": -25.31380753138075,
+      "volatility": 669.6531708882624,
+      "sharpe_ratio": -0.0013250627985530049,
+      "max_drawdown": -56.483083930439626,
+      "win_rate": 52.68361581920904,
+      "profit_factor": 1.2419634610985315,
+      "num_trades": 708,
+      "final_capital": 11858.469159330429
+    }
+  },
+  "results": {
+    "Buy & Hold": {
+      "type": "Baseline",
+      "metrics": {
+        "total_return": 0.4264178689943554,
+        "annualized_return": 0.027625876975490016,
+        "buy_hold_return": -25.31380753138075,
+        "volatility": 27.176656367867114,
+        "sharpe_ratio": -0.07257604086117775,
+        "max_drawdown": -48.49676375567304,
+        "win_rate": 100.0,
+        "profit_factor": Infinity,
+        "num_trades": 1,
+        "final_capital": 10042.641786899436
+      },
+      "signal_method": "N/A",
+      "model_name": "N/A"
+    },
+    "Random Trading": {
+      "type": "Baseline",
+      "metrics": {
+        "total_return": 18.584691593304292,
+        "annualized_return": 1.1126674953229054,
+        "buy_hold_return": -25.31380753138075,
+        "volatility": 669.6531708882624,
+        "sharpe_ratio": -0.0013250627985530049,
+        "max_drawdown": -56.483083930439626,
+        "win_rate": 52.68361581920904,
+        "profit_factor": 1.2419634610985315,
+        "num_trades": 708,
+        "final_capital": 11858.469159330429
+      },
+      "signal_method": "N/A",
+      "model_name": "N/A"
+    },
+    "BidirectionalDeepLSTMModel_threshold": {
+      "type": "ML Model",
+      "metrics": {
+        "total_return": -6.229967418398974,
+        "annualized_return": -2.14662036592157,
+        "buy_hold_return": -8.832335329341301,
+        "volatility": 502.6584527539721,
+        "sharpe_ratio": -0.008249379560222272,
+        "max_drawdown": -54.426423221848,
+        "win_rate": 56.060606060606055,
+        "profit_factor": 0.9525922610362968,
+        "num_trades": 198,
+        "final_capital": 9377.003258160103
+      },
+      "signal_method": "threshold",
+      "model_name": "BidirectionalDeepLSTMModel"
+    },
+    "BidirectionalDeepLSTMModel_directional": {
+      "type": "ML Model",
+      "metrics": {
+        "total_return": 2.3382771913749156,
+        "annualized_return": 0.7827831853570499,
+        "buy_hold_return": -8.832335329341301,
+        "volatility": 55.46555661170024,
+        "sharpe_ratio": -0.02194545388166506,
+        "max_drawdown": -10.76916778585958,
+        "win_rate": 42.26519337016575,
+        "profit_factor": 1.1229474160320634,
+        "num_trades": 362,
+        "final_capital": 10233.827719137491
+      },
+      "signal_method": "directional",
+      "model_name": "BidirectionalDeepLSTMModel"
+    },
+    "BidirectionalDeepLSTMModel_hybrid": {
+      "type": "ML Model",
+      "metrics": {
+        "total_return": 3.9826557593959366,
+        "annualized_return": 1.326198930820932,
+        "buy_hold_return": -8.832335329341301,
+        "volatility": 687.987686530622,
+        "sharpe_ratio": -0.0009793795475859543,
+        "max_drawdown": -51.995665324660465,
+        "win_rate": 40.15748031496063,
+        "profit_factor": 1.244300176917505,
+        "num_trades": 127,
+        "final_capital": 10398.265575939593
+      },
+      "signal_method": "hybrid",
+      "model_name": "BidirectionalDeepLSTMModel"
+    },
+    "GRU_Model_threshold": {
+      "type": "ML Model",
+      "metrics": {
+        "total_return": 0.3795110831777526,
+        "annualized_return": 0.13322084250584343,
+        "buy_hold_return": -6.603518267929632,
+        "volatility": 493.6270253544295,
+        "sharpe_ratio": -0.0037817604418108773,
+        "max_drawdown": -50.704189478467285,
+        "win_rate": 58.38509316770186,
+        "profit_factor": 1.0925122982456532,
+        "num_trades": 161,
+        "final_capital": 10037.951108317775
+      },
+      "signal_method": "threshold",
+      "model_name": "GRU_Model"
+    },
+    "GRU_Model_directional": {
+      "type": "ML Model",
+      "metrics": {
+        "total_return": -18.927688194443103,
+        "annualized_return": -7.109362201300828,
+        "buy_hold_return": -6.603518267929632,
+        "volatility": 56.675671554426444,
+        "sharpe_ratio": -0.16072790937383036,
+        "max_drawdown": -23.483262316749578,
+        "win_rate": 40.16620498614959,
+        "profit_factor": 0.852882746441016,
+        "num_trades": 361,
+        "final_capital": 8107.231180555689
+      },
+      "signal_method": "directional",
+      "model_name": "GRU_Model"
+    },
+    "GRU_Model_hybrid": {
+      "type": "ML Model",
+      "metrics": {
+        "total_return": -5.02177907436071,
+        "annualized_return": -1.794538137946733,
+        "buy_hold_return": -6.603518267929632,
+        "volatility": 708.9990930031016,
+        "sharpe_ratio": -0.005351964728014305,
+        "max_drawdown": -52.89069118273532,
+        "win_rate": 42.30769230769231,
+        "profit_factor": 0.9119053839428205,
+        "num_trades": 130,
+        "final_capital": 9497.822092563929
+      },
+      "signal_method": "hybrid",
+      "model_name": "GRU_Model"
+    },
+    "HybridLSTMAttentionModel_threshold": {
+      "type": "ML Model",
+      "metrics": {
+        "total_return": -3.548794307190306,
+        "annualized_return": -1.2115437435469834,
+        "buy_hold_return": -8.832335329341301,
+        "volatility": 417.289156521353,
+        "sharpe_ratio": -0.007696207038590149,
+        "max_drawdown": -52.69629656901773,
+        "win_rate": 64.65517241379311,
+        "profit_factor": 0.9593500575864623,
+        "num_trades": 116,
+        "final_capital": 9645.120569280969
+      },
+      "signal_method": "threshold",
+      "model_name": "HybridLSTMAttentionModel"
+    },
+    "HybridLSTMAttentionModel_directional": {
+      "type": "ML Model",
+      "metrics": {
+        "total_return": 1.7179782820758271,
+        "annualized_return": 0.5762910882115557,
+        "buy_hold_return": -8.832335329341301,
+        "volatility": 55.47618414120321,
+        "sharpe_ratio": -0.025663425374836277,
+        "max_drawdown": -9.036571773914385,
+        "win_rate": 43.513513513513516,
+        "profit_factor": 1.1115908403790151,
+        "num_trades": 370,
+        "final_capital": 10171.797828207582
+      },
+      "signal_method": "directional",
+      "model_name": "HybridLSTMAttentionModel"
+    },
+    "HybridLSTMAttentionModel_hybrid": {
+      "type": "ML Model",
+      "metrics": {
+        "total_return": 1.8203390612757442,
+        "annualized_return": 0.6104234761685534,
+        "buy_hold_return": -8.832335329341301,
+        "volatility": 789.322698588742,
+        "sharpe_ratio": -0.0017604669501028157,
+        "max_drawdown": -50.89280132990606,
+        "win_rate": 42.60355029585799,
+        "profit_factor": 1.1502071375506866,
+        "num_trades": 169,
+        "final_capital": 10182.033906127574
+      },
+      "signal_method": "hybrid",
+      "model_name": "HybridLSTMAttentionModel"
+    },
+    "TLS_LSTMModel_threshold": {
+      "type": "ML Model",
+      "metrics": {
+        "total_return": -4.1462752281167585,
+        "annualized_return": -1.4184130393758099,
+        "buy_hold_return": -8.832335329341301,
+        "volatility": 460.06222317597224,
+        "sharpe_ratio": -0.007430327610420382,
+        "max_drawdown": -53.51597582797385,
+        "win_rate": 56.16438356164384,
+        "profit_factor": 0.9677949692524144,
+        "num_trades": 146,
+        "final_capital": 9585.372477188324
+      },
+      "signal_method": "threshold",
+      "model_name": "TLS_LSTMModel"
+    },
+    "TLS_LSTMModel_directional": {
+      "type": "ML Model",
+      "metrics": {
+        "total_return": -2.786233798747273,
+        "annualized_return": -0.9487478198950239,
+        "buy_hold_return": -8.832335329341301,
+        "volatility": 55.47660675587481,
+        "sharpe_ratio": -0.053152995331365686,
+        "max_drawdown": -11.522400352262473,
+        "win_rate": 42.26519337016575,
+        "profit_factor": 1.0512017860638214,
+        "num_trades": 362,
+        "final_capital": 9721.376620125273
+      },
+      "signal_method": "directional",
+      "model_name": "TLS_LSTMModel"
+    },
+    "TLS_LSTMModel_hybrid": {
+      "type": "ML Model",
+      "metrics": {
+        "total_return": -0.10219309883584549,
+        "annualized_return": -0.03448645981661835,
+        "buy_hold_return": -8.832335329341301,
+        "volatility": 721.2262281417757,
+        "sharpe_ratio": -0.0028208714276218576,
+        "max_drawdown": -52.747984411592384,
+        "win_rate": 41.42857142857143,
+        "profit_factor": 1.0783766293925707,
+        "num_trades": 140,
+        "final_capital": 9989.780690116415
+      },
+      "signal_method": "hybrid",
+      "model_name": "TLS_LSTMModel"
+    },
+    "Rolling_Forecast_threshold": {
+      "type": "Rolling Forecast",
+      "metrics": {
+        "total_return": -2.931424723083742,
+        "annualized_return": -13.925120616441145,
+        "buy_hold_return": -3.0660168365086338,
+        "volatility": 213.3263149948019,
+        "sharpe_ratio": -0.0746514588077387,
+        "max_drawdown": -2.575991881765761,
+        "win_rate": 0.0,
+        "profit_factor": 0.0,
+        "num_trades": 1,
+        "final_capital": 9706.857527691625
+      },
+      "signal_method": "threshold",
+      "model_name": "BidirectionalDeepLSTM_Rolling"
+    },
+    "Rolling_Forecast_directional": {
+      "type": "Rolling Forecast",
+      "metrics": {
+        "total_return": 3.82394327163329,
+        "annualized_return": 20.82018555571232,
+        "buy_hold_return": -3.0660168365086338,
+        "volatility": 213.18179573740377,
+        "sharpe_ratio": 0.08828232959860667,
+        "max_drawdown": -2.397432324012642,
+        "win_rate": 53.84615384615385,
+        "profit_factor": 1.6602101329302508,
+        "num_trades": 39,
+        "final_capital": 10382.394327163329
+      },
+      "signal_method": "directional",
+      "model_name": "BidirectionalDeepLSTM_Rolling"
+    },
+    "Rolling_Forecast_hybrid": {
+      "type": "Rolling Forecast",
+      "metrics": {
+        "total_return": 0.4262599674560663,
+        "annualized_return": 2.166928577049254,
+        "buy_hold_return": -3.0660168365086338,
+        "volatility": 1029.6509070857412,
+        "sharpe_ratio": 0.00016212152672376908,
+        "max_drawdown": -50.08318624825095,
+        "win_rate": 50.0,
+        "profit_factor": 1.2003161105291642,
+        "num_trades": 20,
+        "final_capital": 10042.625996745606
+      },
+      "signal_method": "hybrid",
+      "model_name": "BidirectionalDeepLSTM_Rolling"
+    }
+  },
+  "chart_path": "images\\backtesting\\backtest_analysis_20250816_190717.png"
+}

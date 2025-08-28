@@ -1,0 +1,155 @@
+{
+  "metadata": {
+    "timestamp": "20250823_192201",
+    "generation_date": "2025-08-23T19:22:01.113774",
+    "initial_capital": 10000,
+    "currency": "USD",
+    "analysis_type": "Rolling Re-training Backtesting",
+    "models_compared": [
+      "GRU",
+      "NAIVE",
+      "ARIMA"
+    ]
+  },
+  "summary": {
+    "total_strategies_tested": 4,
+    "best_strategy": {
+      "name": "Re-entrenamiento cada 10",
+      "profit": 35656.53,
+      "roi_pct": 356.57,
+      "directional_accuracy_pct": 52.94
+    },
+    "worst_strategy": {
+      "name": "NAIVE Baseline",
+      "profit": -94649.26,
+      "roi_pct": -946.49,
+      "directional_accuracy_pct": 53.78
+    }
+  },
+  "detailed_results": {
+    "NAIVE Baseline": {
+      "strategy_name": "NAIVE Baseline",
+      "model_type": "NAIVE",
+      "financial_metrics": {
+        "initial_capital": 10000,
+        "final_capital": -84649.26,
+        "profit_loss": -94649.26,
+        "return_on_investment_pct": -946.49,
+        "win_rate_pct": 52.63,
+        "maximum_drawdown_pct": -54.31
+      },
+      "trading_metrics": {
+        "directional_accuracy_pct": 53.78,
+        "total_predictions": 120,
+        "best_strategy_method": "threshold"
+      },
+      "time_metrics": {
+        "start_date": "2022-01-04",
+        "end_date": "2022-06-20",
+        "duration_days": 167
+      },
+      "risk_metrics": {
+        "max_drawdown_absolute": 51400.26,
+        "risk_category": "High"
+      },
+      "model_specific": {
+        "baseline_type": "NAIVE",
+        "description": "Simple carry-forward prediction"
+      }
+    },
+    "ARIMA Baseline": {
+      "strategy_name": "ARIMA Baseline",
+      "model_type": "ARIMA",
+      "financial_metrics": {
+        "initial_capital": 10000,
+        "final_capital": -69500.97,
+        "profit_loss": -79500.97,
+        "return_on_investment_pct": -795.01,
+        "win_rate_pct": 52.54,
+        "maximum_drawdown_pct": -53.64
+      },
+      "trading_metrics": {
+        "directional_accuracy_pct": 53.78,
+        "total_predictions": 120,
+        "best_strategy_method": "threshold"
+      },
+      "time_metrics": {
+        "start_date": "2022-01-04",
+        "end_date": "2022-06-20",
+        "duration_days": 167
+      },
+      "risk_metrics": {
+        "max_drawdown_absolute": 42645.86,
+        "risk_category": "High"
+      },
+      "model_specific": {
+        "baseline_type": "ARIMA",
+        "description": "Traditional forecasting baseline"
+      }
+    },
+    "Re-entrenamiento cada 5": {
+      "strategy_name": "Re-entrenamiento cada 5",
+      "model_type": "GRU",
+      "financial_metrics": {
+        "initial_capital": 10000,
+        "final_capital": 33822.65,
+        "profit_loss": 23822.65,
+        "return_on_investment_pct": 238.23,
+        "win_rate_pct": 67.86,
+        "maximum_drawdown_pct": -49.66
+      },
+      "trading_metrics": {
+        "directional_accuracy_pct": 52.1,
+        "total_predictions": 120,
+        "best_strategy_method": "threshold"
+      },
+      "time_metrics": {
+        "start_date": "2022-01-04",
+        "end_date": "2022-06-20",
+        "duration_days": 167
+      },
+      "risk_metrics": {
+        "max_drawdown_absolute": -11829.75,
+        "risk_category": "High"
+      },
+      "model_specific": {
+        "retraining_frequency": "5",
+        "model_architecture": "GRU with Optuna optimization",
+        "features_used": "EUR/USD price, DXY, RSI, SMA"
+      }
+    },
+    "Re-entrenamiento cada 10": {
+      "strategy_name": "Re-entrenamiento cada 10",
+      "model_type": "GRU",
+      "financial_metrics": {
+        "initial_capital": 10000,
+        "final_capital": 45656.53,
+        "profit_loss": 35656.53,
+        "return_on_investment_pct": 356.57,
+        "win_rate_pct": 63.64,
+        "maximum_drawdown_pct": -49.66
+      },
+      "trading_metrics": {
+        "directional_accuracy_pct": 52.94,
+        "total_predictions": 120,
+        "best_strategy_method": "threshold"
+      },
+      "time_metrics": {
+        "start_date": "2022-01-04",
+        "end_date": "2022-06-20",
+        "duration_days": 167
+      },
+      "risk_metrics": {
+        "max_drawdown_absolute": -17706.17,
+        "risk_category": "High"
+      },
+      "model_specific": {
+        "retraining_frequency": "10",
+        "model_architecture": "GRU with Optuna optimization",
+        "features_used": "EUR/USD price, DXY, RSI, SMA"
+      }
+    }
+  },
+  "comparison_analysis": {
+    "gru_vs_baselines": {
+      "gru_outperforms": 

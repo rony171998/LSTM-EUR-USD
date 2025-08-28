@@ -1,0 +1,7 @@
+{
+  "timestamp": "2025-08-22 22:19:25",
+  "base_model_da": 0.49441340782122906,
+  "rolling_forecast_da": 0.3103448275862069,
+  "improvement": -0.18406858023502215,
+  "target_da_72pct": 0.7241,
+  "achieved_target": 

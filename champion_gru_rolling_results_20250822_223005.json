@@ -1,0 +1,10 @@
+{
+  "timestamp": "20250822_223005",
+  "model_path": "modelos/eur_usd/GRU_Model_optuna_EUR_USD_2010-2024.csv.pth",
+  "technique": "Advanced Rolling Forecast with Re-training",
+  "predictions_count": 30,
+  "rmse": 0.013904315744456079,
+  "r2": 0.44900589228899956,
+  "directional_accuracy": 48.275862068965516,
+  "target_da": 72.41,
+  "success": 

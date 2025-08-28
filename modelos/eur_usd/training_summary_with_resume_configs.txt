@@ -1,0 +1,67 @@
+RESUMEN DE ENTRENAMIENTO CON CONFIGURACIONES DEL RESUMEN
+============================================================
+Fecha: 2025-08-13 18:34:59
+GPU: NVIDIA GeForce RTX 4060
+Semilla fija: 42 (reproducibilidad garantizada)
+Features: ['returns', 'rsi', 'sma20', 'dxy_returns']
+Secuencias: 30
+Configuraciones aplicadas desde resumen de modelos entrenados
+
+RESULTADOS:
+----------------------------------------
+1. BidirectionalDeepLSTMModel
+   RMSE: 0.006302
+   R²: 0.963337
+   DA: 0.5107
+   Parámetros: 88,301
+   Tiempo: 0:01:08.052077
+   Archivo: modelos\eur_usd\BidirectionalDeepLSTMModel_EUR_USD_2010-2024.csv.pth
+
+2. TLS_LSTMModel_Optimizado
+   RMSE: 0.006326
+   R²: 0.963065
+   DA: 0.5040
+   Parámetros: 200,833
+   Tiempo: 0:01:18.683052
+   Archivo: modelos\eur_usd\TLS_LSTMModel_Optimizado_EUR_USD_2010-2024.csv.pth
+
+3. HybridLSTMAttentionModel
+   RMSE: 0.007059
+   R²: 0.954000
+   DA: 0.5040
+   Parámetros: 34,202
+   Tiempo: 0:01:29.871269
+   Archivo: modelos\eur_usd\HybridLSTMAttentionModel_EUR_USD_2010-2024.csv.pth
+
+4. GRU_Model
+   RMSE: 0.011394
+   R²: 0.880169
+   DA: 0.5027
+   Parámetros: 54,351
+   Tiempo: 0:01:07.330167
+   Archivo: modelos\eur_usd\GRU_Model_EUR_USD_2010-2024.csv.pth
+
+5. TLS_LSTMModel
+   RMSE: 0.012781
+   R²: 0.849215
+   DA: 0.4987
+   Parámetros: 31,651
+   Tiempo: 0:01:15.113053
+   Archivo: modelos\eur_usd\TLS_LSTMModel_EUR_USD_2010-2024.csv.pth
+
+6. ContextualLSTMTransformerFlexible
+   RMSE: 0.016287
+   R²: 0.755137
+   DA: 0.5241
+   Parámetros: 134,977
+   Tiempo: 0:08:56.944727
+   Archivo: modelos\eur_usd\ContextualLSTMTransformerFlexible_EUR_USD_2010-2024.csv.pth
+
+CONFIGURACIONES ESPECÍFICAS APLICADAS:
+----------------------------------------
+• TLS_LSTMModel: hidden_size=50, dropout=0.2, epochs=100
+• GRU_Model: hidden_size=50, dropout=0.2, num_layers=2, epochs=100
+• HybridLSTMAttentionModel: hidden_size=50, dropout=0.2, epochs=100
+• BidirectionalDeepLSTMModel: hidden_size=50, dropout=0.2, epochs=100
+• TLS_LSTMModel_Optimizado: hidden_size=128, dropout=0.1, epochs=150
+• ContextualLSTMTransformerFlexible: lstm_units=32, embed_dim=64, epochs=150

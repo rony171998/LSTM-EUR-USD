@@ -1,0 +1,72 @@
+RESUMEN DE ENTRENAMIENTO CON PARÁMETROS OPTUNA
+============================================================
+Fecha: 2025-08-16 13:31:49
+GPU: NVIDIA GeForce RTX 4060
+Semilla fija: 987 (reproducibilidad garantizada)
+Parámetros optimizados mediante Optuna (optimización bayesiana)
+
+RESULTADOS:
+----------------------------------------
+1. BidirectionalDeepLSTMModel
+   RMSE: 0.007961
+   R²: 0.941502
+   DA: 0.5161
+   Parámetros: 8,946,689
+   Tiempo: 0:09:43.082789
+   Archivo: modelos\eur_usd\BidirectionalDeepLSTMModel_optuna_EUR_USD_2010-2024.csv.pth
+   Parámetros Optuna:
+     Hidden Size: 512
+     Learning Rate: 0.000536
+     Dropout: 0.2566
+     Batch Size: 16
+     Seq Length: 30
+
+2. TLS_LSTMModel
+   RMSE: 0.009458
+   R²: 0.917426
+   DA: 0.5080
+   Parámetros: 3,162,625
+   Tiempo: 0:05:15.953056
+   Archivo: modelos\eur_usd\TLS_LSTMModel_optuna_EUR_USD_2010-2024.csv.pth
+   Parámetros Optuna:
+     Hidden Size: 512
+     Learning Rate: 0.000664
+     Dropout: 0.1998
+     Batch Size: 16
+     Seq Length: 30
+
+3. HybridLSTMAttentionModel
+   RMSE: 0.011347
+   R²: 0.881138
+   DA: 0.5054
+   Parámetros: 217,346
+   Tiempo: 0:01:58.204462
+   Archivo: modelos\eur_usd\HybridLSTMAttentionModel_optuna_EUR_USD_2010-2024.csv.pth
+   Parámetros Optuna:
+     Hidden Size: 128
+     Learning Rate: 0.002111
+     Dropout: 0.1029
+     Batch Size: 32
+     Seq Length: 30
+
+4. GRU_Model
+   RMSE: 0.014008
+   R²: 0.812468
+   DA: 0.4860
+   Parámetros: 348,801
+   Tiempo: 0:03:10.880600
+   Archivo: modelos\eur_usd\GRU_Model_optuna_EUR_USD_2010-2024.csv.pth
+   Parámetros Optuna:
+     Hidden Size: 128
+     Learning Rate: 0.001006
+     Dropout: 0.3441
+     Batch Size: 16
+     Seq Length: 60
+
+VENTAJAS DE PARÁMETROS OPTUNA:
+----------------------------------------
+• Optimización bayesiana para encontrar mejores hiperparámetros
+• Parámetros específicos para cada arquitectura
+• Mejor rendimiento esperado vs parámetros estándar
+• Búsqueda inteligente en espacio de hiperparámetros
+• Balanceado entre exploración y explotación

@@ -1,0 +1,72 @@
+RESUMEN DE ENTRENAMIENTO CON PARÁMETROS ESTÁNDAR IDÉNTICOS
+============================================================
+Fecha: 2025-08-13 20:33:50
+GPU: NVIDIA GeForce RTX 4060
+Semilla fija: 42 (reproducibilidad garantizada)
+Features: ['returns', 'rsi', 'sma20', 'dxy_returns']
+Secuencias: 30
+PARÁMETROS ESTÁNDAR UTILIZADOS PARA TODOS LOS MODELOS:
+  Hidden Size: 64
+  Dropout: 0.2
+  Epochs: 120
+  Batch Size: 32
+  Learning Rate: 0.001
+  Sequence Length: 30
+
+RESULTADOS (Comparación justa con parámetros idénticos):
+----------------------------------------
+1. BidirectionalDeepLSTMModel
+   RMSE: 0.005818
+   R²: 0.968749
+   DA: 0.4879
+   Parámetros: 143,489
+   Tiempo: 0:01:12.011063
+   Archivo: modelos\eur_usd\BidirectionalDeepLSTMModel_EUR_USD_2010-2024.csv.pth
+
+2. GRU_Model
+   RMSE: 0.008632
+   R²: 0.931217
+   DA: 0.5067
+   Parámetros: 88,385
+   Tiempo: 0:01:25.035519
+   Archivo: modelos\eur_usd\GRU_Model_EUR_USD_2010-2024.csv.pth
+
+3. TLS_LSTMModel
+   RMSE: 0.008831
+   R²: 0.928011
+   DA: 0.5121
+   Parámetros: 51,265
+   Tiempo: 0:01:16.278599
+   Archivo: modelos\eur_usd\TLS_LSTMModel_EUR_USD_2010-2024.csv.pth
+
+4. TLS_LSTMModel_Optimizado
+   RMSE: 0.011455
+   R²: 0.878882
+   DA: 0.5147
+   Parámetros: 51,265
+   Tiempo: 0:01:07.045048
+   Archivo: modelos\eur_usd\TLS_LSTMModel_Optimizado_EUR_USD_2010-2024.csv.pth
+
+5. HybridLSTMAttentionModel
+   RMSE: 0.011844
+   R²: 0.870513
+   DA: 0.5040
+   Parámetros: 55,426
+   Tiempo: 0:01:38.021396
+   Archivo: modelos\eur_usd\HybridLSTMAttentionModel_EUR_USD_2010-2024.csv.pth
+
+6. ContextualLSTMTransformerFlexible
+   RMSE: 0.014978
+   R²: 0.792925
+   DA: 0.5013
+   Parámetros: 214,593
+   Tiempo: 0:06:24.788469
+   Archivo: modelos\eur_usd\ContextualLSTMTransformerFlexible_EUR_USD_2010-2024.csv.pth
+
+VENTAJAS DE ESTA COMPARACIÓN:
+----------------------------------------
+• Comparación justa: TODOS con parámetros idénticos
+• Elimina sesgo por configuración diferente
+• Evalúa arquitectura pura, no hiperparámetros
+• Reproducibilidad completa con semillas fijas
+• Misma capacidad de aprendizaje para todos

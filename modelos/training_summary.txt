@@ -1,0 +1,47 @@
+RESUMEN DE ENTRENAMIENTO DE MODELOS
+==================================================
+Fecha: 2025-08-13 17:46:39
+GPU: NVIDIA GeForce RTX 4060
+Features: ['returns', 'rsi', 'sma20', 'dxy_returns']
+Secuencias: 30
+
+1. BidirectionalDeepLSTMModel
+   RMSE: 0.007697
+   R²: 0.945311
+   DA: 0.5054
+   Parámetros: 88,301
+   Tiempo: 0:01:21.909661
+   Archivo: modelos\BidirectionalDeepLSTMModel_trained.pth
+
+2. GRU_Model
+   RMSE: 0.008950
+   R²: 0.926064
+   DA: 0.5067
+   Parámetros: 54,351
+   Tiempo: 0:01:16.422588
+   Archivo: modelos\GRU_Model_trained.pth
+
+3. TLS_LSTMModel
+   RMSE: 0.010206
+   R²: 0.903847
+   DA: 0.5080
+   Parámetros: 31,651
+   Tiempo: 0:01:25.822575
+   Archivo: modelos\TLS_LSTMModel_trained.pth
+
+4. HybridLSTMAttentionModel
+   RMSE: 0.013360
+   R²: 0.835237
+   DA: 0.4933
+   Parámetros: 34,202
+   Tiempo: 0:01:35.617251
+   Archivo: modelos\HybridLSTMAttentionModel_trained.pth
+
+5. ContextualLSTMTransformerFlexible
+   RMSE: 0.014855
+   R²: 0.796297
+   DA: 0.5027
+   Parámetros: 134,977
+   Tiempo: 0:09:19.721281
+   Archivo: modelos\ContextualLSTMTransformerFlexible_trained.pth
+

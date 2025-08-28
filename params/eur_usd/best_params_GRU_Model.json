@@ -1,0 +1,7 @@
+{
+    "hidden_size": 128,
+    "learning_rate": 0.0010059426888791,
+    "dropout_prob": 0.3441023356173669,
+    "batch_size": 16,
+    "seq_length": 60
+}

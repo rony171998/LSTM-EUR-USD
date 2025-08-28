@@ -1,0 +1,16 @@
+{
+  "timestamp": "20250822_223936",
+  "technique": "Exact 72.41% DA Reproduction",
+  "methodology": "Fresh model per prediction + 10 epochs + new scalers",
+  "model_path": "modelos/eur_usd/GRU_Model_optuna_EUR_USD_2010-2024.csv.pth",
+  "predictions_count": 30,
+  "rmse": 0.013492736146589088,
+  "r2": -1.7046241124771266,
+  "directional_accuracy": 55.172413793103445,
+  "target_da": 72.41,
+  "success_status": "PARTIAL",
+  "execution_time": 90.24924778938293,
+  "fresh_model_per_prediction": true,
+  "epochs_per_model": 10,
+  "seq_length": 60
+}

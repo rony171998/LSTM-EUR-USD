@@ -1,0 +1,82 @@
+{
+  "timestamp": "2025-08-21 22:14:54",
+  "technique": "Rolling Forecast",
+  "inspiration": "ARIMA improvement 50% → 54.5% DA",
+  "avg_improvement": 0.0,
+  "models_improved": 0,
+  "total_models": 4,
+  "results": [
+    {
+      "model_name": "BidirectionalDeepLSTMModel",
+      "rolling_rmse": 0.008189543886926054,
+      "rolling_r2": 0.9073814698094651,
+      "rolling_da": 0.494949494949495,
+      "standard_rmse": 0.008189113258014954,
+      "standard_r2": 0.9073912098313133,
+      "standard_da": 0.494949494949495,
+      "da_improvement": 0.0,
+      "optuna_params": {
+        "hidden_size": 512,
+        "learning_rate": 0.0005359644798126345,
+        "dropout_prob": 0.25661047417121563,
+        "batch_size": 16,
+        "seq_length": 30
+      },
+      "predictions_count": 100
+    },
+    {
+      "model_name": "GRU_Model",
+      "rolling_rmse": 0.015513793235651474,
+      "rolling_r2": 0.6711456538481206,
+      "rolling_da": 0.5454545454545454,
+      "standard_rmse": 0.015513791228279795,
+      "standard_r2": 0.6711457389508222,
+      "standard_da": 0.5454545454545454,
+      "da_improvement": 0.0,
+      "optuna_params": {
+        "hidden_size": 128,
+        "learning_rate": 0.0010059426888791,
+        "dropout_prob": 0.3441023356173669,
+        "batch_size": 16,
+        "seq_length": 60
+      },
+      "predictions_count": 100
+    },
+    {
+      "model_name": "HybridLSTMAttentionModel",
+      "rolling_rmse": 0.012513865029253588,
+      "rolling_r2": 0.7837473747000256,
+      "rolling_da": 0.494949494949495,
+      "standard_rmse": 0.012513910157274781,
+      "standard_r2": 0.7837458149787674,
+      "standard_da": 0.494949494949495,
+      "da_improvement": 0.0,
+      "optuna_params": {
+        "hidden_size": 128,
+        "learning_rate": 0.0021105434981689274,
+        "dropout_prob": 0.10292564449780778,
+        "batch_size": 32,
+        "seq_length": 30
+      },
+      "predictions_count": 100
+    },
+    {
+      "model_name": "TLS_LSTMModel",
+      "rolling_rmse": 0.0092938421684892,
+      "rolling_r2": 0.8807196125319555,
+      "rolling_da": 0.48484848484848486,
+      "standard_rmse": 0.009293606305438356,
+      "standard_r2": 0.8807256667512091,
+      "standard_da": 0.48484848484848486,
+      "da_improvement": 0.0,
+      "optuna_params": {
+        "hidden_size": 512,
+        "learning_rate": 0.0006640438578724378,
+        "dropout_prob": 0.19979269004684524,
+        "batch_size": 16,
+        "seq_length": 30
+      },
+      "predictions_count": 100
+    }
+  ]
+}

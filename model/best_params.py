@@ -9,28 +9,19 @@ import joblib
 import optuna
 import json
 from datetime import datetime
+from pathlib import Path
+from config import DEFAULT_PARAMS
+from modelos import (
+    TLS_LSTMModel,
+    GRU_Model,
+    HybridLSTMAttentionModel,
+    BidirectionalDeepLSTMModel,
+    ContextualLSTMTransformerFlexible,
+    NaiveForecastModel,
+    ARIMAModel,
+)
 
-# Configuración del dispositivo
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-print(f"Usando dispositivo: {device}")
-
-# 1. Clase del Modelo TLS-LSTM (optimizada para tuning)
-class TLS_LSTMModel(nn.Module):
-    def __init__(self, input_size=1, hidden_size=256, output_size=1, dropout_prob=0.2):
-        super(TLS_LSTMModel, self).__init__()
-        self.hidden_size = hidden_size
-        self.lstm1 = nn.LSTM(input_size, hidden_size, batch_first=True)
-        self.dropout1 = nn.Dropout(dropout_prob)
-        self.lstm2 = nn.LSTM(hidden_size, hidden_size, batch_first=True)
-        self.dropout2 = nn.Dropout(dropout_prob)
-        self.fc = nn.Linear(hidden_size, output_size)
-
-    def forward(self, x):
-        lstm1_out, _ = self.lstm1(x)
-        lstm1_out = self.dropout1(lstm1_out)
-        lstm2_out, _ = self.lstm2(lstm1_out)
-        lstm2_out = self.dropout2(lstm2_out)
-        return self.fc(lstm2_out[:, -1, :])
+device = torch.device("cuda")
 
 # 2. Función para cargar y preparar datos (simplificada)
 def load_and_prepare_data(filepath, target_column):
@@ -111,11 +102,11 @@ def objective(trial):
     return val_loss
 
 # Configuración principal
-FILEPATH = "EUR_USD_2010-2024.csv"
-TARGET_COLUMN = "Último"
-FORECAST_HORIZON = 1
-TRAIN_SPLIT_RATIO = 0.8  # 80% train, 20% val (para tuning)
-SEQ_LENGTH = 60  # Valor inicial
+FILEPATH = Path("data/" + DEFAULT_PARAMS.FILEPATH)
+TARGET_COLUMN = DEFAULT_PARAMS.TARGET_COLUMN
+FORECAST_HORIZON = DEFAULT_PARAMS.FORECAST_HORIZON
+TRAIN_SPLIT_RATIO = DEFAULT_PARAMS.TRAIN_SPLIT_RATIO
+SEQ_LENGTH = DEFAULT_PARAMS.SEQ_LENGTH
 
 if __name__ == "__main__":
     print("\n=== Iniciando Optimización de Hiperparámetros ===")
@@ -147,9 +138,8 @@ if __name__ == "__main__":
     
     # Guardar resultados
     best_params = study.best_params
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    output_file = f"best_params_{timestamp}_{FILEPATH}.json"
-    
+    output_file = f"params/{DEFAULT_PARAMS.TABLENAME}/best_params_{DEFAULT_PARAMS.MODELNAME}.json"
+
     with open(output_file, 'w') as f:
         json.dump(best_params, f, indent=4)
     

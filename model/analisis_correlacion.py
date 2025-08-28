@@ -2,6 +2,8 @@
 import pandas as pd
 import torch
 import matplotlib.pyplot as plt
+import os
+import glob
 
 from config import DEFAULT_PARAMS
 from train_model import load_and_prepare_data
@@ -9,17 +11,63 @@ from train_model import load_and_prepare_data
 # Configuración de dispositivo
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-def analyze_correlations(df, main_pair="USD/COP", other_pairs=["USD/AUD", "EUR/USD", "USD/MXN", "USD/BRL"]):
+def get_available_pairs(data_folder="data", exclude_file=None):
     """
-    Analiza correlaciones entre USD/COP y otros pares de divisas
+    Obtiene automáticamente todos los pares disponibles en la carpeta data
     
     Args:
-        df (DataFrame): DataFrame con los datos históricos
-        main_pair (str): Par principal a analizar (default: "USD/COP")
-        other_pairs (list): Lista de pares para comparar
+        data_folder (str): Ruta a la carpeta con los archivos CSV
+        exclude_file (str): Archivo a excluir (generalmente el par principal)
+    
+    Returns:
+        list: Lista de nombres de pares disponibles
+    """
+    # Buscar todos los archivos CSV en la carpeta data
+    csv_files = glob.glob(os.path.join(data_folder, "*_2010-2024.csv"))
+    
+    pairs = []
+    for file_path in csv_files:
+        filename = os.path.basename(file_path)
+        # Excluir el archivo principal si se especifica
+        if exclude_file and filename == exclude_file:
+            continue
+        
+        # Extraer el nombre del par del archivo
+        pair_name = filename.replace("_2010-2024.csv", "").replace("_", "/")
+        
+        # Convertir nombres especiales
+        if pair_name == "S&P500":
+            pair_name = "S&P500"
+        elif pair_name == "VIX":
+            pair_name = "VIX"
+        elif pair_name == "ECOPETROL":
+            pair_name = "ECOPETROL"
+        elif pair_name == "DAX":
+            pair_name = "DAX"
+        
+        pairs.append(pair_name)
+    
+    return sorted(pairs)
+
+def analyze_correlations(df, main_pair="USD/COP", other_pairs=None):
+    """
+    Analiza correlaciones entre el par principal y otros pares de divisas
+    
+    Args:
+        df (DataFrame): DataFrame con los datos históricos del par principal
+        main_pair (str): Par principal a analizar
+        other_pairs (list): Lista de pares para comparar. Si es None, se detectan automáticamente
     """
     print("\n=== Análisis de Correlación ===")
     print(f"Par principal: {main_pair}")
+    
+    # Si no se especifican pares, detectarlos automáticamente
+    if other_pairs is None:
+        print("🔍 Detectando pares disponibles automáticamente...")
+        # Obtener el nombre del archivo principal basado en el par
+        main_file = DEFAULT_PARAMS.FILEPATH
+        other_pairs = get_available_pairs(data_folder="data", exclude_file=main_file)
+        print(f"📊 Pares encontrados: {', '.join(other_pairs)}")
     
     # Verificar que el par principal existe en los datos
     if "Último" not in df.columns:
@@ -29,16 +77,22 @@ def analyze_correlations(df, main_pair="USD/COP", other_pairs=["USD/AUD", "EUR/U
     correlations = {}
     for pair in other_pairs:
         try:
+            # Construir el nombre del archivo basado en el par
+            if pair in ["S&P500", "VIX", "ECOPETROL", "DAX"]:
+                filename = f"{pair}_2010-2024.csv"
+            else:
+                filename = f"{pair.replace('/', '_')}_2010-2024.csv"
+            
             # Cargar datos del par comparativo
             pair_df = pd.read_csv(
-                f"data/{pair.replace('/', '_')}_2010-2024.csv",
+                f"data/{filename}",
                 index_col="Fecha",
                 parse_dates=True,
                 dayfirst=True,
                 decimal=",",
                 thousands=".",
                 converters={
-                    "Último": lambda x: float(x.replace(".", "").replace(",", "."))
+                    "Último": lambda x: float(x.replace(".", "").replace(",", ".")) if isinstance(x, str) else x
                 }
             )
             
@@ -65,10 +119,15 @@ def analyze_correlations(df, main_pair="USD/COP", other_pairs=["USD/AUD", "EUR/U
         except FileNotFoundError:
             print(f"\n⚠️ Datos no encontrados para {pair}")
             correlations[pair] = None
+        except Exception as e:
+            print(f"\n❌ Error procesando {pair}: {str(e)}")
+            correlations[pair] = None
     
     # Visualización
     if len(correlations) > 0:
         plot_correlations(main_pair, correlations)
+    
+    return correlations
 
 def plot_correlations(main_pair, correlations):
     """Visualiza las correlaciones encontradas"""
@@ -105,8 +164,26 @@ def plot_correlations(main_pair, correlations):
 if __name__ == "__main__":
     df = load_and_prepare_data(DEFAULT_PARAMS.FILEPATH)
 
-    analyze_correlations(
+    # Analizar correlaciones automáticamente detectando todos los pares disponibles
+    correlations = analyze_correlations(
         df,
         main_pair=DEFAULT_PARAMS.TICKER,
-        other_pairs=["USD/AUD", "USD/COP", "GBP/USD" , "USD/CHF","EUR/USD","VIX","S&P500"]
+        other_pairs=None  # Detectar automáticamente
     )
+    
+    print(f"\n📈 RESUMEN DE CORRELACIONES:")
+    print("="*50)
+    for pair, corr in correlations.items():
+        if corr is not None:
+            strength = ""
+            if abs(corr) > 0.7:
+                strength = "🔵 FUERTE"
+            elif abs(corr) > 0.4:
+                strength = "🟢 MODERADA"
+            else:
+                strength = "🟡 DÉBIL"
+            
+            direction = "+" if corr > 0 else "-"
+            print(f"{DEFAULT_PARAMS.TICKER} vs {pair}: {corr:+.3f} {strength} {direction}")
+        else:
+            print(f"{DEFAULT_PARAMS.TICKER} vs {pair}: ❌ ERROR")

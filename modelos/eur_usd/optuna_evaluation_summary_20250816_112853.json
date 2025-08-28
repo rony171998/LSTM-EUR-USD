@@ -1,0 +1,95 @@
+{
+  "timestamp": "2025-08-16 11:28:53",
+  "total_models_evaluated": 6,
+  "optuna_models": 4,
+  "baseline_models": 2,
+  "results": [
+    {
+      "model_name": "BidirectionalDeepLSTMModel",
+      "model_type": "Optuna Optimized",
+      "test_rmse": 0.007006055383701106,
+      "test_r2": 0.9546898727939209,
+      "test_da": 0.4932975871313673,
+      "parameters": 8946689,
+      "optuna_params": {
+        "hidden_size": 512,
+        "learning_rate": 0.0005359644798126345,
+        "dropout_prob": 0.25661047417121563,
+        "batch_size": 16,
+        "seq_length": 30
+      },
+      "model_path": "modelos\\eur_usd\\BidirectionalDeepLSTMModel_optuna_EUR_USD_2010-2024.csv.pth"
+    },
+    {
+      "model_name": "GRU_Model",
+      "model_type": "Optuna Optimized",
+      "test_rmse": 0.010486059218106194,
+      "test_r2": 0.8949075219591313,
+      "test_da": 0.5181564245810056,
+      "parameters": 348801,
+      "optuna_params": {
+        "hidden_size": 128,
+        "learning_rate": 0.0010059426888791,
+        "dropout_prob": 0.3441023356173669,
+        "batch_size": 16,
+        "seq_length": 60
+      },
+      "model_path": "modelos\\eur_usd\\GRU_Model_optuna_EUR_USD_2010-2024.csv.pth"
+    },
+    {
+      "model_name": "HybridLSTMAttentionModel",
+      "model_type": "Optuna Optimized",
+      "test_rmse": 0.012312399067312478,
+      "test_r2": 0.8600626917564362,
+      "test_da": 0.5013404825737265,
+      "parameters": 217346,
+      "optuna_params": {
+        "hidden_size": 128,
+        "learning_rate": 0.0021105434981689274,
+        "dropout_prob": 0.10292564449780778,
+        "batch_size": 32,
+        "seq_length": 30
+      },
+      "model_path": "modelos\\eur_usd\\HybridLSTMAttentionModel_optuna_EUR_USD_2010-2024.csv.pth"
+    },
+    {
+      "model_name": "TLS_LSTMModel",
+      "model_type": "Optuna Optimized",
+      "test_rmse": 0.005676403254592293,
+      "test_r2": 0.9702563248035193,
+      "test_da": 0.5160857908847185,
+      "parameters": 3162625,
+      "optuna_params": {
+        "hidden_size": 512,
+        "learning_rate": 0.0006640438578724378,
+        "dropout_prob": 0.19979269004684524,
+        "batch_size": 16,
+        "seq_length": 30
+      },
+      "model_path": "modelos\\eur_usd\\TLS_LSTMModel_optuna_EUR_USD_2010-2024.csv.pth"
+    },
+    {
+      "model_name": "Naive Baseline",
+      "model_type": "Baseline",
+      "test_rmse": 0.005290485414868183,
+      "test_r2": 0.9740577362647678,
+      "test_da": 0.5073825503355704,
+      "parameters": 0,
+      "optuna_params": {},
+      "model_path": "baseline"
+    },
+    {
+      "model_name": "ARIMA(1,1,1)",
+      "model_type": "Baseline",
+      "test_rmse": 0.06829906629715611,
+      "test_r2": -3.306036257114478,
+      "test_da": 0.5134048257372654,
+      "parameters": 3,
+      "optuna_params": {},
+      "model_path": "arima_baseline"
+    }
+  ],
+  "best_model": "Naive Baseline",
+  "best_rmse": 0.005290485414868183,
+  "chart_path": "images\\evaluacion_optuna\\optuna_vs_baselines_comparison_20250816_112845.png"
+}

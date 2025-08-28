@@ -4,9 +4,9 @@ from typing import List
 
 @dataclass
 class ModelParams:
-    FILEPATH: str = "USD_COP_2010-2024.csv"  # EUR_USD_2010-2024.csv , USD_COP_2010-2024.csv
-    TABLENAME: str = "usd_cop" # eur_usd , usd_cop
-    TICKER: str = "USD/COP" # EUR/USD , USD/COP
+    FILEPATH: str = "EUR_USD_2010-2024.csv"  # EUR_USD_2010-2024.csv , USD_COP_2010-2024.csv , ECOPETROL_2010-2024.csv
+    TABLENAME: str = "eur_usd" # eur_usd , usd_cop , ecopetrol
+    TICKER: str = "EUR/USD" # EUR/USD , USD/COP , ECOPETROL
     TARGET_COLUMN: str = "Último"
     SEQ_LENGTH: int = 120
     FORECAST_HORIZON: int = 1
@@ -18,7 +18,7 @@ class ModelParams:
     HIDDEN_SIZE: int = 512
     DROPOUT_PROB: float = 0.10976329984400868
     FEATURES: List[str] = field(default_factory=lambda: ["Último", "RSI", "SMA"])
-    MODELNAME: str = "TLS_LSTMModel"
+    MODELNAME: str = "HybridLSTMAttention"
     #TLS_LSTMModel
     #BidirectionalDeepLSTM
     #HybridLSTMAttention
@@ -33,6 +33,7 @@ class ModelParams:
     LSTM_UNITS: int = 64
     NUM_HEADS: int = 8
     EMBED_DIM: int = 128
+    SEED: int = 123
 
 # Instancia única de parámetros
 DEFAULT_PARAMS = ModelParams()

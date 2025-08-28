@@ -1,0 +1,27 @@
+{
+  "timestamp": "2025-08-22 22:06:19",
+  "technique": "Advanced Rolling Forecast with Re-training",
+  "inspiration": "ARIMA incremental model fitting",
+  "best_da": 0.4827586206896552,
+  "avg_improvement_vs_naive": -0.052955665024630505,
+  "successful_models": 0,
+  "total_models": 1,
+  "results": [
+    {
+      "model_name": "GRU_Model",
+      "advanced_rmse": 0.015101069154441605,
+      "advanced_r2": -2.387835019368397,
+      "advanced_da": 0.4827586206896552,
+      "naive_da": 0.5357142857142857,
+      "da_vs_naive": -0.052955665024630505,
+      "predictions_count": 30,
+      "optuna_params": {
+        "hidden_size": 128,
+        "learning_rate": 0.0010059426888791,
+        "dropout_prob": 0.3441023356173669,
+        "batch_size": 16,
+        "seq_length": 60
+      }
+    }
+  ]
+}

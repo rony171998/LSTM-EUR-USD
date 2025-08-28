@@ -47,7 +47,7 @@ SEQUENCE_LENGTH = DEFAULT_PARAMS.SEQ_LENGTH
 BATCH_SIZE = DEFAULT_PARAMS.BATCH_SIZE
 LEARNING_RATE = DEFAULT_PARAMS.LEARNING_RATE
 EPOCHS = DEFAULT_PARAMS.EPOCHS
-FILE_PATH = f"data/{DEFAULT_PARAMS.DATA_PATH}"
+FILE_PATH = f"data/{DEFAULT_PARAMS.FILEPATH}"
 
 def print_section(title):
     """Imprime una sección con formato"""
@@ -57,7 +57,7 @@ def print_section(title):
 
 def load_data():
     """Carga los datos EUR/USD"""
-    print("📊 Cargando datos EUR/USD...")
+    print(f"📊 Cargando datos {DEFAULT_PARAMS.TICKER}...")
     
     # Obtener el directorio del proyecto (un nivel arriba de model/)
     project_dir = Path(__file__).parent.parent
@@ -66,29 +66,102 @@ def load_data():
     if not data_path.exists():
         raise FileNotFoundError(f"No se encontró el archivo: {data_path}")
     
-    df = pd.read_csv(data_path)
+    # Cargar CSV con configuración robusta para diferentes formatos
+    df = pd.read_csv(
+        data_path,
+        index_col="Fecha",
+        parse_dates=True,
+        dayfirst=True,
+        decimal=",",
+        thousands=".",
+        converters={
+            "Último": lambda x: convert_to_float(x) if x else np.nan,
+            "Apertura": lambda x: convert_to_float(x) if x else np.nan,
+            "Máximo": lambda x: convert_to_float(x) if x else np.nan,
+            "Mínimo": lambda x: convert_to_float(x) if x else np.nan,
+            "% var.": lambda x: convert_to_float(str(x).replace("%", "")) if x else np.nan
+        }
+    )
     
     # Verificar columnas necesarias
     required_columns = ['Último']
-    if 'Fecha' in df.columns:
-        df['Fecha'] = pd.to_datetime(df['Fecha'], format='%d.%m.%Y')
-        df.set_index('Fecha', inplace=True)
-    
     for col in required_columns:
         if col not in df.columns:
             raise ValueError(f"Columna '{col}' no encontrada en el dataset")
-    
-    # Convertir la columna 'Último' que puede tener formato europeo con comas
-    if df['Último'].dtype == 'object':
-        df['Último'] = df['Último'].str.replace(',', '.').astype(float)
     
     # Ordenar por fecha ascendente
     df = df.sort_index()
     
     print(f"✅ Datos cargados: {len(df)} registros desde {df.index[0]} hasta {df.index[-1]}")
-    print(f"📈 Precio EUR/USD - Min: {df['Último'].min():.6f}, Max: {df['Último'].max():.6f}")
+    print(f"📈 Precio {DEFAULT_PARAMS.TICKER} - Min: {df['Último'].min():.6f}, Max: {df['Último'].max():.6f}")
     
     return df
+
+def convert_to_float(value_str):
+    """
+    Convierte string a float manejando diferentes formatos numéricos:
+    - '1.234,56' (formato europeo: punto miles, coma decimal)
+    - '4.130.50' (formato con doble punto)
+    - '1,234.56' (formato americano: coma miles, punto decimal)
+    - '1234.56' (formato simple)
+    """
+    if pd.isna(value_str) or value_str == '' or value_str is None:
+        return np.nan
+    
+    # Convertir a string por si acaso
+    value_str = str(value_str).strip()
+    
+    try:
+        # Caso 1: Formato simple sin separadores especiales
+        if ',' not in value_str and value_str.count('.') <= 1:
+            return float(value_str)
+        
+        # Caso 2: Formato europeo estándar (1.234,56)
+        if ',' in value_str and value_str.rfind(',') > value_str.rfind('.'):
+            # La coma está después del último punto = formato europeo
+            # Remover puntos (miles) y cambiar coma por punto (decimal)
+            cleaned = value_str.replace('.', '').replace(',', '.')
+            return float(cleaned)
+        
+        # Caso 3: Formato americano estándar (1,234.56)
+        elif '.' in value_str and value_str.rfind('.') > value_str.rfind(','):
+            # El punto está después de la última coma = formato americano
+            # Remover comas (miles)
+            cleaned = value_str.replace(',', '')
+            return float(cleaned)
+        
+        # Caso 4: Formato problemático como '4.130.50'
+        elif value_str.count('.') > 1:
+            # Múltiples puntos - asumir que el último es decimal
+            parts = value_str.split('.')
+            if len(parts) >= 2:
+                # Unir todas las partes excepto la última (miles)
+                # La última parte es decimal
+                integer_part = ''.join(parts[:-1])
+                decimal_part = parts[-1]
+                cleaned = f"{integer_part}.{decimal_part}"
+                return float(cleaned)
+        
+        # Caso 5: Solo comas (formato '1,234')
+        elif ',' in value_str and '.' not in value_str:
+            # Si hay 3 dígitos después de la última coma, probablemente es miles
+            # Si hay 1-2 dígitos, probablemente es decimal
+            parts = value_str.split(',')
+            if len(parts) == 2 and len(parts[1]) <= 2:
+                # Formato decimal con coma
+                cleaned = value_str.replace(',', '.')
+                return float(cleaned)
+            else:
+                # Formato miles con coma
+                cleaned = value_str.replace(',', '')
+                return float(cleaned)
+        
+        # Último recurso: intentar conversión directa
+        return float(value_str)
+        
+    except (ValueError, AttributeError) as e:
+        print(f"⚠️ No se pudo convertir '{value_str}' a float: {e}")
+        return np.nan
 
 def test_stationarity(series, series_name="Serie"):
     """Pruebas de estacionariedad (ADF y KPSS)"""
@@ -361,7 +434,7 @@ def create_visualizations(data, train_size, predictions, actuals, model_name="AR
     sns.set_palette("husl")
     
     fig, axes = plt.subplots(2, 2, figsize=(16, 12))
-    fig.suptitle(f'Análisis del Modelo {model_name} - EUR/USD', fontsize=16, fontweight='bold')
+    fig.suptitle(f'Análisis del Modelo {model_name} - {DEFAULT_PARAMS.TICKER}', fontsize=16, fontweight='bold')
     
     # 1. Predicción vs Realidad
     ax1 = axes[0, 0]
@@ -370,7 +443,7 @@ def create_visualizations(data, train_size, predictions, actuals, model_name="AR
     ax1.plot(test_indices, predictions, label='Predicciones', color='red', alpha=0.7)
     ax1.set_title('Predicciones vs Valores Reales')
     ax1.set_xlabel('Tiempo')
-    ax1.set_ylabel('Precio EUR/USD')
+    ax1.set_ylabel(f'Precio {DEFAULT_PARAMS.TICKER}')
     ax1.legend()
     ax1.grid(True, alpha=0.3)
     
@@ -410,7 +483,7 @@ def create_visualizations(data, train_size, predictions, actuals, model_name="AR
     project_dir = Path(__file__).parent.parent
     images_dir = project_dir / "images"
     images_dir.mkdir(exist_ok=True)
-    filename = images_dir / f"arima_professional_analysis.png"
+    filename = images_dir / f"{DEFAULT_PARAMS.TABLENAME}/arima_professional_analysis.png"
     plt.savefig(filename, dpi=300, bbox_inches='tight')
     print(f"📊 Gráfica guardada: {filename}")
     
@@ -419,7 +492,7 @@ def create_visualizations(data, train_size, predictions, actuals, model_name="AR
 def main():
     """Función principal"""
     print_section("MODELO ARIMA PROFESIONAL CON STATSMODELS")
-    print("🎯 Implementación profesional de ARIMA para EUR/USD")
+    print(f"🎯 Implementación profesional de ARIMA para {DEFAULT_PARAMS.TICKER}")
     print("📊 Incluye: Grid search, validación rolling, test Diebold-Mariano")
     
     start_time = time.time()
@@ -432,7 +505,7 @@ def main():
         # 2. Análisis de estacionariedad
         print_section("2. ANÁLISIS DE ESTACIONARIEDAD")
         series = data['Último']
-        adf_stat, kpss_stat = test_stationarity(series, "EUR/USD Último")
+        adf_stationary, kpss_stationary = test_stationarity(series, f"{DEFAULT_PARAMS.TICKER} Último")
         
         # 3. Búsqueda de mejores parámetros
         print_section("3. SELECCIÓN DE PARÁMETROS ARIMA")

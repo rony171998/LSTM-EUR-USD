@@ -13,7 +13,13 @@ Este script incluye:
 
 import sys
 import os
-sys.path.append(os.path.join(os.path.dirname(__file__), 'model'))
+from pathlib import Path
+
+# Agregar directorio padre al path para importaciones
+current_dir = Path(__file__).parent
+project_root = current_dir.parent
+sys.path.append(str(project_root))
+sys.path.append(str(current_dir))
 
 import torch
 import pandas as pd
@@ -23,10 +29,10 @@ from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
 import joblib
 import time
 
-# Importar desde el proyecto
-from model.modelos import NaiveForecastModel
-from model.config import DEFAULT_PARAMS
-from model.train_model import load_and_prepare_data, create_sequences, add_indicator
+# Importar desde el proyecto local
+from modelos import NaiveForecastModel
+from config import DEFAULT_PARAMS
+from train_model import load_and_prepare_data, create_sequences, add_indicator
 
 def calculate_metrics(y_true, y_pred):
     """Calcula métricas completas de evaluación."""
@@ -257,7 +263,7 @@ def main():
         print(f"🤔 Directional Accuracy alejada del 50%: {metrics['DA']:.2f}%")
     
     # 10. Guardar modelo (solo si es útil)
-    model_path = f"modelos/eur_usd/NaiveForecastModel_{DEFAULT_PARAMS.FILEPATH}.pth"
+    model_path = f"modelos/{DEFAULT_PARAMS.TABLENAME}/NaiveForecastModel_{DEFAULT_PARAMS.FILEPATH}.pth"
     os.makedirs(os.path.dirname(model_path), exist_ok=True)
     
     # Nota: Guardamos el modelo completo, no solo state_dict ya que no tiene parámetros entrenables

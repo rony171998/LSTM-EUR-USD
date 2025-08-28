@@ -11,7 +11,7 @@ from train_model import (
     device,
     load_and_prepare_data
 )
-from save_data import get_df
+#from save_data import get_df
 from config import DEFAULT_PARAMS
 
 # --- Parámetros Consistentes con el Entrenamiento ---

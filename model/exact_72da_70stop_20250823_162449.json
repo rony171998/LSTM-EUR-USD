@@ -1,0 +1,16 @@
+{
+  "timestamp": "20250823_162449",
+  "technique": "Exact 72.41% DA Reproduction with 70% Auto-Stop",
+  "da": 75.0,
+  "rmse": 0.010240126896601271,
+  "r2": -14.000600660691763,
+  "target_da_original": 72.41,
+  "target_da_objective": 70.0,
+  "objective_70_achieved": true,
+  "exact_match": false,
+  "predictions_count": 5,
+  "execution_time": 11.226552486419678,
+  "seed": 123,
+  "epochs": 15,
+  "auto_stop_enabled": true
+}

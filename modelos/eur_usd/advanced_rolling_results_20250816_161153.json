@@ -1,0 +1,75 @@
+{
+  "timestamp": "2025-08-16 16:11:53",
+  "technique": "Advanced Rolling Forecast with Re-training",
+  "inspiration": "ARIMA incremental model fitting",
+  "best_da": 0.6551724137931034,
+  "avg_improvement_vs_naive": -0.02709359605911328,
+  "successful_models": 2,
+  "total_models": 4,
+  "results": [
+    {
+      "model_name": "BidirectionalDeepLSTMModel",
+      "advanced_rmse": 0.020936530729736405,
+      "advanced_r2": -5.512028580258177,
+      "advanced_da": 0.6551724137931034,
+      "naive_da": 0.5357142857142857,
+      "da_vs_naive": 0.11945812807881773,
+      "predictions_count": 30,
+      "optuna_params": {
+        "hidden_size": 512,
+        "learning_rate": 0.0005359644798126345,
+        "dropout_prob": 0.25661047417121563,
+        "batch_size": 16,
+        "seq_length": 30
+      }
+    },
+    {
+      "model_name": "GRU_Model",
+      "advanced_rmse": 0.013719646342749648,
+      "advanced_r2": -1.7963575014020305,
+      "advanced_da": 0.5517241379310345,
+      "naive_da": 0.5357142857142857,
+      "da_vs_naive": 0.016009852216748777,
+      "predictions_count": 30,
+      "optuna_params": {
+        "hidden_size": 128,
+        "learning_rate": 0.0010059426888791,
+        "dropout_prob": 0.3441023356173669,
+        "batch_size": 16,
+        "seq_length": 60
+      }
+    },
+    {
+      "model_name": "HybridLSTMAttentionModel",
+      "advanced_rmse": 0.025359492301692266,
+      "advanced_r2": -8.554060114000137,
+      "advanced_da": 0.4827586206896552,
+      "naive_da": 0.5357142857142857,
+      "da_vs_naive": -0.052955665024630505,
+      "predictions_count": 30,
+      "optuna_params": {
+        "hidden_size": 128,
+        "learning_rate": 0.0021105434981689274,
+        "dropout_prob": 0.10292564449780778,
+        "batch_size": 32,
+        "seq_length": 30
+      }
+    },
+    {
+      "model_name": "TLS_LSTMModel",
+      "advanced_rmse": 0.03148225411501597,
+      "advanced_r2": -13.72443029057835,
+      "advanced_da": 0.3448275862068966,
+      "naive_da": 0.5357142857142857,
+      "da_vs_naive": -0.19088669950738912,
+      "predictions_count": 30,
+      "optuna_params": {
+        "hidden_size": 512,
+        "learning_rate": 0.0006640438578724378,
+        "dropout_prob": 0.19979269004684524,
+        "batch_size": 16,
+        "seq_length": 30
+      }
+    }
+  ]
+}

@@ -1,0 +1,652 @@
+{
+  "timestamp": "2025-08-21 21:40:35",
+  "config": {
+    "initial_capital": 10000,
+    "transaction_cost": 0.0001,
+    "test_seeds": [
+      87665,
+      64415,
+      59604,
+      5925,
+      25339,
+      42248,
+      62054,
+      98382,
+      98665,
+      71239,
+      90829,
+      23482,
+      62839,
+      13127,
+      15598
+    ],
+    "excluded_seeds": [
+      42,
+      123,
+      987
+    ]
+  },
+  "seed_analysis": {
+    "random_returns": [
+      3.0962442827027647,
+      5.070217862510207,
+      -21.059687642701373,
+      9.424468990418976,
+      -23.13850342570064,
+      -12.477391920087232,
+      -8.866911568469027,
+      -17.411640433577503,
+      -8.258659726700568,
+      -0.6234031167476117,
+      -10.611437702030724,
+      -8.003103140604285,
+      -17.96836077526972,
+      0.5772246680975757,
+      -21.5974257172456
+    ],
+    "buy_hold_returns": [
+      0.4264178689943554,
+      0.4264178689943554,
+      0.4264178689943554,
+      0.4264178689943554,
+      0.4264178689943554,
+      0.4264178689943554,
+      0.4264178689943554,
+      0.4264178689943554,
+      0.4264178689943554,
+      0.4264178689943554,
+      0.4264178689943554,
+      0.4264178689943554,
+      0.4264178689943554,
+      0.4264178689943554,
+      0.4264178689943554
+    ],
+    "best_seed": 5925,
+    "worst_seed": 25339,
+    "best_return": 9.424468990418976,
+    "worst_return": -23.13850342570064,
+    "random_stats": {
+      "mean": -8.789891291026985,
+      "std": 10.054668546236167,
+      "min": -23.13850342570064,
+      "max": 9.424468990418976,
+      "range": 32.56297241611962
+    }
+  },
+  "best_strategy": {
+    "name": "Random Trading (seed=5925)",
+    "metrics": {
+      "total_return": 9.424468990418976,
+      "annualized_return": 0.5863650508191709,
+      "buy_hold_return": -25.31380753138075,
+      "volatility": 659.2120567906685,
+      "sharpe_ratio": -0.0021444312715744613,
+      "max_drawdown": -55.12211349953332,
+      "win_rate": 50.58997050147492,
+      "profit_factor": 1.1854558267057964,
+      "num_trades": 678,
+      "final_capital": 10942.446899041897
+    }
+  },
+  "results": {
+    "Buy & Hold": {
+      "type": "Baseline",
+      "metrics": {
+        "total_return": 0.4264178689943554,
+        "annualized_return": 0.027625876975490016,
+        "buy_hold_return": -25.31380753138075,
+        "volatility": 27.176656367867114,
+        "sharpe_ratio": -0.07257604086117775,
+        "max_drawdown": -48.49676375567304,
+        "win_rate": 100.0,
+        "profit_factor": Infinity,
+        "num_trades": 1,
+        "final_capital": 10042.641786899436
+      },
+      "signal_method": "N/A",
+      "model_name": "N/A",
+      "seed": 15598
+    },
+    "Random Trading (seed=87665)": {
+      "type": "Baseline",
+      "metrics": {
+        "total_return": 3.0962442827027647,
+        "annualized_return": 0.19813987298384905,
+        "buy_hold_return": -25.31380753138075,
+        "volatility": 676.913216230032,
+        "sharpe_ratio": -0.0026618775993935296,
+        "max_drawdown": -53.518176699092,
+        "win_rate": 50.06858710562414,
+        "profit_factor": 1.1277510711137448,
+        "num_trades": 729,
+        "final_capital": 10309.624428270276
+      },
+      "signal_method": "N/A",
+      "model_name": "N/A",
+      "seed": 87665
+    },
+    "Random Trading (seed=64415)": {
+      "type": "Baseline",
+      "metrics": {
+        "total_return": 5.070217862510207,
+        "annualized_return": 0.32157695018595334,
+        "buy_hold_return": -25.31380753138075,
+        "volatility": 662.902532205621,
+        "sharpe_ratio": -0.002531930364226499,
+        "max_drawdown": -55.36103904870323,
+        "win_rate": 52.470930232558146,
+        "profit_factor": 1.1458904122018831,
+        "num_trades": 688,
+        "final_capital": 10507.021786251022
+      },
+      "signal_method": "N/A",
+      "model_name": "N/A",
+      "seed": 64415
+    },
+    "Random Trading (seed=59604)": {
+      "type": "Baseline",
+      "metrics": {
+        "total_return": -21.059687642701373,
+        "annualized_return": -1.523375220409362,
+        "buy_hold_return": -25.31380753138075,
+        "volatility": 669.7511188070047,
+        "sharpe_ratio": -0.005260723157410144,
+        "max_drawdown": -63.94561851455042,
+        "win_rate": 49.06474820143885,
+        "profit_factor": 0.9354685837275158,
+        "num_trades": 695,
+        "final_capital": 7894.031235729863
+      },
+      "signal_method": "N/A",
+      "model_name": "N/A",
+      "seed": 59604
+    },
+    "Random Trading (seed=5925)": {
+      "type": "Baseline",
+      "metrics": {
+        "total_return": 9.424468990418976,
+        "annualized_return": 0.5863650508191709,
+        "buy_hold_return": -25.31380753138075,
+        "volatility": 659.2120567906685,
+        "sharpe_ratio": -0.0021444312715744613,
+        "max_drawdown": -55.12211349953332,
+        "win_rate": 50.58997050147492,
+        "profit_factor": 1.1854558267057964,
+        "num_trades": 678,
+        "final_capital": 10942.446899041897
+      },
+      "signal_method": "N/A",
+      "model_name": "N/A",
+      "seed": 5925
+    },
+    "Random Trading (seed=25339)": {
+      "type": "Baseline",
+      "metrics": {
+        "total_return": -23.13850342570064,
+        "annualized_return": -1.693826912177343,
+        "buy_hold_return": -25.31380753138075,
+        "volatility": 670.8071594335031,
+        "sharpe_ratio": -0.005506540680479293,
+        "max_drawdown": -62.35794346810144,
+        "win_rate": 49.929278642149924,
+        "profit_factor": 0.9142474785427287,
+        "num_trades": 707,
+        "final_capital": 7686.149657429936
+      },
+      "signal_method": "N/A",
+      "model_name": "N/A",
+      "seed": 25339
+    },
+    "Random Trading (seed=42248)": {
+      "type": "Baseline",
+      "metrics": {
+        "total_return": -12.477391920087232,
+        "annualized_return": -0.8614103042122956,
+        "buy_hold_return": -25.31380753138075,
+        "volatility": 667.5031766788611,
+        "sharpe_ratio": -0.004286736609178616,
+        "max_drawdown": -59.33986639407676,
+        "win_rate": 47.467438494934875,
+        "profit_factor": 1.0027337219442558,
+        "num_trades": 691,
+        "final_capital": 8752.260807991277
+      },
+      "signal_method": "N/A",
+      "model_name": "N/A",
+      "seed": 42248
+    },
+    "Random Trading (seed=62054)": {
+      "type": "Baseline",
+      "metrics": {
+        "total_return": -8.866911568469027,
+        "annualized_return": -0.6009179765966377,
+        "buy_hold_return": -25.31380753138075,
+        "volatility": 671.77220983178,
+        "sharpe_ratio": -0.0038717260680490783,
+        "max_drawdown": -58.96991189830905,
+        "win_rate": 49.859154929577464,
+        "profit_factor": 1.0337761109101022,
+        "num_trades": 710,
+        "final_capital": 9113.308843153098
+      },
+      "signal_method": "N/A",
+      "model_name": "N/A",
+      "seed": 62054
+    },
+    "Random Trading (seed=98382)": {
+      "type": "Baseline",
+      "metrics": {
+        "total_return": -17.411640433577503,
+        "annualized_return": -1.2341542261539273,
+        "buy_hold_return": -25.31380753138075,
+        "volatility": 677.4910757411282,
+        "sharpe_ratio": -0.004773722255479141,
+        "max_drawdown": -61.290324452784404,
+        "win_rate": 49.03047091412742,
+        "profit_factor": 0.9652011951853393,
+        "num_trades": 722,
+        "final_capital": 8258.83595664225
+      },
+      "signal_method": "N/A",
+      "model_name": "N/A",
+      "seed": 98382
+    },
+    "Random Trading (seed=98665)": {
+      "type": "Baseline",
+      "metrics": {
+        "total_return": -8.258659726700568,
+        "annualized_return": -0.5579857706974445,
+        "buy_hold_return": -25.31380753138075,
+        "volatility": 671.6255675250678,
+        "sharpe_ratio": -0.0038086485899034364,
+        "max_drawdown": -54.79793332328743,
+        "win_rate": 51.24999999999999,
+        "profit_factor": 1.0362726187784463,
+        "num_trades": 720,
+        "final_capital": 9174.134027329943
+      },
+      "signal_method": "N/A",
+      "model_name": "N/A",
+      "seed": 98665
+    },
+    "Random Trading (seed=71239)": {
+      "type": "Baseline",
+      "metrics": {
+        "total_return": -0.6234031167476117,
+        "annualized_return": -0.040586636641959384,
+        "buy_hold_return": -25.31380753138075,
+        "volatility": 669.7023953383667,
+        "sharpe_ratio": -0.0030470051336921895,
+        "max_drawdown": -55.64157503108913,
+        "win_rate": 50.92989985693849,
+        "profit_factor": 1.1014895779634637,
+        "num_trades": 699,
+        "final_capital": 9937.659688325239
+      },
+      "signal_method": "N/A",
+      "model_name": "N/A",
+      "seed": 71239
+    },
+    "Random Trading (seed=90829)": {
+      "type": "Baseline",
+      "metrics": {
+        "total_return": -10.611437702030724,
+        "annualized_return": -0.7255548822820646,
+        "buy_hold_return": -25.31380753138075,
+        "volatility": 677.4530341677468,
+        "sharpe_ratio": -0.00402323813580733,
+        "max_drawdown": -57.89632589993381,
+        "win_rate": 49.79253112033195,
+        "profit_factor": 1.0150267630818854,
+        "num_trades": 723,
+        "final_capital": 8938.856229796927
+      },
+      "signal_method": "N/A",
+      "model_name": "N/A",
+      "seed": 90829
+    },
+    "Random Trading (seed=23482)": {
+      "type": "Baseline",
+      "metrics": {
+        "total_return": -8.003103140604285,
+        "annualized_return": -0.5400271927919476,
+        "buy_hold_return": -25.31380753138075,
+        "volatility": 660.8222784983147,
+        "sharpe_ratio": -0.003843737227752114,
+        "max_drawdown": -55.33843193927741,
+        "win_rate": 52.56975036710719,
+        "profit_factor": 1.035521308878178,
+        "num_trades": 681,
+        "final_capital": 9199.689685939571
+      },
+      "signal_method": "N/A",
+      "model_name": "N/A",
+      "seed": 23482
+    },
+    "Random Trading (seed=62839)": {
+      "type": "Baseline",
+      "metrics": {
+        "total_return": -17.96836077526972,
+        "annualized_return": -1.2775095670436776,
+        "buy_hold_return": -25.31380753138075,
+        "volatility": 684.0976600879022,
+        "sharpe_ratio": -0.0047909966051083094,
+        "max_drawdown": -61.85539525744992,
+        "win_rate": 48.62258953168045,
+        "profit_factor": 0.9600822903832298,
+        "num_trades": 726,
+        "final_capital": 8203.163922473028
+      },
+      "signal_method": "N/A",
+      "model_name": "N/A",
+      "seed": 62839
+    },
+    "Random Trading (seed=13127)": {
+      "type": "Baseline",
+      "metrics": {
+        "total_return": 0.5772246680975757,
+        "annualized_return": 0.037369785413554624,
+        "buy_hold_return": -25.31380753138075,
+        "volatility": 681.8969954588257,
+        "sharpe_ratio": -0.0028781916149459743,
+        "max_drawdown": -55.62610485014804,
+        "win_rate": 52.689655172413794,
+        "profit_factor": 1.0964863512648135,
+        "num_trades": 725,
+        "final_capital": 10057.722466809757
+      },
+      "signal_method": "N/A",
+      "model_name": "N/A",
+      "seed": 13127
+    },
+    "Random Trading (seed=15598)": {
+      "type": "Baseline",
+      "metrics": {
+        "total_return": -21.5974257172456,
+        "annualized_return": -1.5670607070984,
+        "buy_hold_return": -25.31380753138075,
+        "volatility": 669.7721982673331,
+        "sharpe_ratio": -0.0053257819842719755,
+        "max_drawdown": -60.28297309058779,
+        "win_rate": 47.714285714285715,
+        "profit_factor": 0.9163377175635188,
+        "num_trades": 700,
+        "final_capital": 7840.25742827544
+      },
+      "signal_method": "N/A",
+      "model_name": "N/A",
+      "seed": 15598
+    },
+    "BidirectionalDeepLSTMModel_threshold": {
+      "type": "ML Model",
+      "metrics": {
+        "total_return": -6.229967418398974,
+        "annualized_return": -2.14662036592157,
+        "buy_hold_return": -8.832335329341301,
+        "volatility": 502.6584527539721,
+        "sharpe_ratio": -0.008249379560222272,
+        "max_drawdown": -54.426423221848,
+        "win_rate": 56.060606060606055,
+        "profit_factor": 0.9525922610362968,
+        "num_trades": 198,
+        "final_capital": 9377.003258160103
+      },
+      "signal_method": "threshold",
+      "model_name": "BidirectionalDeepLSTMModel",
+      "seed": "N/A"
+    },
+    "BidirectionalDeepLSTMModel_directional": {
+      "type": "ML Model",
+      "metrics": {
+        "total_return": 2.3382771913749156,
+        "annualized_return": 0.7827831853570499,
+        "buy_hold_return": -8.832335329341301,
+        "volatility": 55.46555661170024,
+        "sharpe_ratio": -0.02194545388166506,
+        "max_drawdown": -10.76916778585958,
+        "win_rate": 42.26519337016575,
+        "profit_factor": 1.1229474160320634,
+        "num_trades": 362,
+        "final_capital": 10233.827719137491
+      },
+      "signal_method": "directional",
+      "model_name": "BidirectionalDeepLSTMModel",
+      "seed": "N/A"
+    },
+    "BidirectionalDeepLSTMModel_hybrid": {
+      "type": "ML Model",
+      "metrics": {
+        "total_return": 3.9826557593959366,
+        "annualized_return": 1.326198930820932,
+        "buy_hold_return": -8.832335329341301,
+        "volatility": 687.987686530622,
+        "sharpe_ratio": -0.0009793795475859543,
+        "max_drawdown": -51.995665324660465,
+        "win_rate": 40.15748031496063,
+        "profit_factor": 1.244300176917505,
+        "num_trades": 127,
+        "final_capital": 10398.265575939593
+      },
+      "signal_method": "hybrid",
+      "model_name": "BidirectionalDeepLSTMModel",
+      "seed": "N/A"
+    },
+    "GRU_Model_threshold": {
+      "type": "ML Model",
+      "metrics": {
+        "total_return": 0.3795110831777526,
+        "annualized_return": 0.13322084250584343,
+        "buy_hold_return": -6.603518267929632,
+        "volatility": 493.6270253544295,
+        "sharpe_ratio": -0.0037817604418108773,
+        "max_drawdown": -50.704189478467285,
+        "win_rate": 58.38509316770186,
+        "profit_factor": 1.0925122982456532,
+        "num_trades": 161,
+        "final_capital": 10037.951108317775
+      },
+      "signal_method": "threshold",
+      "model_name": "GRU_Model",
+      "seed": "N/A"
+    },
+    "GRU_Model_directional": {
+      "type": "ML Model",
+      "metrics": {
+        "total_return": -18.927688194443103,
+        "annualized_return": -7.109362201300828,
+        "buy_hold_return": -6.603518267929632,
+        "volatility": 56.675671554426444,
+        "sharpe_ratio": -0.16072790937383036,
+        "max_drawdown": -23.483262316749578,
+        "win_rate": 40.16620498614959,
+        "profit_factor": 0.852882746441016,
+        "num_trades": 361,
+        "final_capital": 8107.231180555689
+      },
+      "signal_method": "directional",
+      "model_name": "GRU_Model",
+      "seed": "N/A"
+    },
+    "GRU_Model_hybrid": {
+      "type": "ML Model",
+      "metrics": {
+        "total_return": -5.02177907436071,
+        "annualized_return": -1.794538137946733,
+        "buy_hold_return": -6.603518267929632,
+        "volatility": 708.9990930031016,
+        "sharpe_ratio": -0.005351964728014305,
+        "max_drawdown": -52.89069118273532,
+        "win_rate": 42.30769230769231,
+        "profit_factor": 0.9119053839428205,
+        "num_trades": 130,
+        "final_capital": 9497.822092563929
+      },
+      "signal_method": "hybrid",
+      "model_name": "GRU_Model",
+      "seed": "N/A"
+    },
+    "HybridLSTMAttentionModel_threshold": {
+      "type": "ML Model",
+      "metrics": {
+        "total_return": -3.548794307190306,
+        "annualized_return": -1.2115437435469834,
+        "buy_hold_return": -8.832335329341301,
+        "volatility": 417.289156521353,
+        "sharpe_ratio": -0.007696207038590149,
+        "max_drawdown": -52.69629656901773,
+        "win_rate": 64.65517241379311,
+        "profit_factor": 0.9593500575864623,
+        "num_trades": 116,
+        "final_capital": 9645.120569280969
+      },
+      "signal_method": "threshold",
+      "model_name": "HybridLSTMAttentionModel",
+      "seed": "N/A"
+    },
+    "HybridLSTMAttentionModel_directional": {
+      "type": "ML Model",
+      "metrics": {
+        "total_return": 1.7179782820758271,
+        "annualized_return": 0.5762910882115557,
+        "buy_hold_return": -8.832335329341301,
+        "volatility": 55.47618414120321,
+        "sharpe_ratio": -0.025663425374836277,
+        "max_drawdown": -9.036571773914385,
+        "win_rate": 43.513513513513516,
+        "profit_factor": 1.1115908403790151,
+        "num_trades": 370,
+        "final_capital": 10171.797828207582
+      },
+      "signal_method": "directional",
+      "model_name": "HybridLSTMAttentionModel",
+      "seed": "N/A"
+    },
+    "HybridLSTMAttentionModel_hybrid": {
+      "type": "ML Model",
+      "metrics": {
+        "total_return": 1.8203390612757442,
+        "annualized_return": 0.6104234761685534,
+        "buy_hold_return": -8.832335329341301,
+        "volatility": 789.322698588742,
+        "sharpe_ratio": -0.0017604669501028157,
+        "max_drawdown": -50.89280132990606,
+        "win_rate": 42.60355029585799,
+        "profit_factor": 1.1502071375506866,
+        "num_trades": 169,
+        "final_capital": 10182.033906127574
+      },
+      "signal_method": "hybrid",
+      "model_name": "HybridLSTMAttentionModel",
+      "seed": "N/A"
+    },
+    "TLS_LSTMModel_threshold": {
+      "type": "ML Model",
+      "metrics": {
+        "total_return": -4.1462752281167585,
+        "annualized_return": -1.4184130393758099,
+        "buy_hold_return": -8.832335329341301,
+        "volatility": 460.06222317597224,
+        "sharpe_ratio": -0.007430327610420382,
+        "max_drawdown": -53.51597582797385,
+        "win_rate": 56.16438356164384,
+        "profit_factor": 0.9677949692524144,
+        "num_trades": 146,
+        "final_capital": 9585.372477188324
+      },
+      "signal_method": "threshold",
+      "model_name": "TLS_LSTMModel",
+      "seed": "N/A"
+    },
+    "TLS_LSTMModel_directional": {
+      "type": "ML Model",
+      "metrics": {
+        "total_return": -2.786233798747273,
+        "annualized_return": -0.9487478198950239,
+        "buy_hold_return": -8.832335329341301,
+        "volatility": 55.47660675587481,
+        "sharpe_ratio": -0.053152995331365686,
+        "max_drawdown": -11.522400352262473,
+        "win_rate": 42.26519337016575,
+        "profit_factor": 1.0512017860638214,
+        "num_trades": 362,
+        "final_capital": 9721.376620125273
+      },
+      "signal_method": "directional",
+      "model_name": "TLS_LSTMModel",
+      "seed": "N/A"
+    },
+    "TLS_LSTMModel_hybrid": {
+      "type": "ML Model",
+      "metrics": {
+        "total_return": -0.10219309883584549,
+        "annualized_return": -0.03448645981661835,
+        "buy_hold_return": -8.832335329341301,
+        "volatility": 721.2262281417757,
+        "sharpe_ratio": -0.0028208714276218576,
+        "max_drawdown": -52.747984411592384,
+        "win_rate": 41.42857142857143,
+        "profit_factor": 1.0783766293925707,
+        "num_trades": 140,
+        "final_capital": 9989.780690116415
+      },
+      "signal_method": "hybrid",
+      "model_name": "TLS_LSTMModel",
+      "seed": "N/A"
+    },
+    "Rolling_Forecast_threshold": {
+      "type": "Rolling Forecast",
+      "metrics": {
+        "total_return": -2.931424723083742,
+        "annualized_return": -13.925120616441145,
+        "buy_hold_return": -3.0660168365086338,
+        "volatility": 213.3263149948019,
+        "sharpe_ratio": -0.0746514588077387,
+        "max_drawdown": -2.575991881765761,
+        "win_rate": 0.0,
+        "profit_factor": 0.0,
+        "num_trades": 1,
+        "final_capital": 9706.857527691625
+      },
+      "signal_method": "threshold",
+      "model_name": "BidirectionalDeepLSTM_Rolling",
+      "seed": "N/A"
+    },
+    "Rolling_Forecast_directional": {
+      "type": "Rolling Forecast",
+      "metrics": {
+        "total_return": -3.4073640547770956,
+        "annualized_return": -16.03121873553831,
+        "buy_hold_return": -3.0660168365086338,
+        "volatility": 213.52491931145497,
+        "sharpe_ratio": -0.08444550075786396,
+        "max_drawdown": -4.90411783017763,
+        "win_rate": 45.94594594594595,
+        "profit_factor": 0.7242537677725917,
+        "num_trades": 37,
+        "final_capital": 9659.26359452229
+      },
+      "signal_method": "directional",
+      "model_name": "BidirectionalDeepLSTM_Rolling",
+      "seed": "N/A"
+    },
+    "Rolling_Forecast_hybrid": {
+      "type": "Rolling Forecast",
+      "metrics": {
+        "total_return": -3.1370279188012717,
+        "annualized_return": -14.840076181420415,
+        "buy_hold_return": -3.0660168365086338,
+        "volatility": 1006.1062229411681,
+        "sharpe_ratio": -0.01673787100947604,
+        "max_drawdown": -50.93623273347207,
+        "win_rate": 42.10526315789473,
+        "profit_factor": 0.5014650443768816,
+        "num_trades": 19,
+        "final_capital": 9686.297208119873
+      },
+      "signal_method": "hybrid",
+      "model_name": "BidirectionalDeepLSTM_Rolling",
+      "seed": "N/A"
+    }
+  },
+  "chart_path": "images\\backtesting\\backtest_analysis_20250821_212459.png"
+}

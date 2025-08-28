@@ -1,0 +1,664 @@
+{
+  "metadata": {
+    "timestamp": "20250825_002350",
+    "generation_date": "2025-08-25T00:23:50.556245",
+    "initial_capital": 10000,
+    "currency": "USD",
+    "analysis_type": "Rolling Re-training Backtesting",
+    "models_compared": [
+      "GRU",
+      "Random Trading",
+      "Buy & Hold"
+    ]
+  },
+  "summary": {
+    "total_strategies_tested": 23,
+    "best_strategy": {
+      "name": "GRU_seed_42",
+      "profit": 13789.32,
+      "roi_pct": 137.89,
+      "directional_accuracy_pct": 73.82
+    },
+    "worst_strategy": {
+      "name": "Random_directional_seed_555",
+      "profit": -10022.19,
+      "roi_pct": -100.22,
+      "directional_accuracy_pct": 47.41
+    }
+  },
+  "detailed_results": {
+    "Random_threshold_seed_42": {
+      "strategy_name": "Random_threshold_seed_42",
+      "model_type": "Random Trading",
+      "financial_metrics": {
+        "initial_capital": 10000.0,
+        "final_capital": 8712.08,
+        "profit_loss": -1287.92,
+        "return_on_investment_pct": -12.88,
+        "win_rate_pct": 44.25,
+        "maximum_drawdown_pct": -0.49
+      },
+      "trading_metrics": {
+        "directional_accuracy_pct": 55.78,
+        "total_predictions": 252,
+        "best_strategy_method": "N/A"
+      },
+      "time_metrics": {
+        "start_date": "2024-01-15",
+        "end_date": "2024-12-31",
+        "duration_days": 351
+      },
+      "risk_metrics": {
+        "max_drawdown_absolute": 6.34,
+        "risk_category": "Low"
+      }
+    },
+    "Random_directional_seed_42": {
+      "strategy_name": "Random_directional_seed_42",
+      "model_type": "Random Trading",
+      "financial_metrics": {
+        "initial_capital": 10000.0,
+        "final_capital": 3279.02,
+        "profit_loss": -6720.98,
+        "return_on_investment_pct": -67.21,
+        "win_rate_pct": 40.71,
+        "maximum_drawdown_pct": -0.74
+      },
+      "trading_metrics": {
+        "directional_accuracy_pct": 55.78,
+        "total_predictions": 252,
+        "best_strategy_method": "N/A"
+      },
+      "time_metrics": {
+        "start_date": "2024-01-15",
+        "end_date": "2024-12-31",
+        "duration_days": 351
+      },
+      "risk_metrics": {
+        "max_drawdown_absolute": 49.87,
+        "risk_category": "Low"
+      }
+    },
+    "Random_hybrid_seed_42": {
+      "strategy_name": "Random_hybrid_seed_42",
+      "model_type": "Random Trading",
+      "financial_metrics": {
+        "initial_capital": 10000.0,
+        "final_capital": 7158.7,
+        "profit_loss": -2841.3,
+        "return_on_investment_pct": -28.41,
+        "win_rate_pct": 36.36,
+        "maximum_drawdown_pct": -0.45
+      },
+      "trading_metrics": {
+        "directional_accuracy_pct": 55.78,
+        "total_predictions": 252,
+        "best_strategy_method": "N/A"
+      },
+      "time_metrics": {
+        "start_date": "2024-01-15",
+        "end_date": "2024-12-31",
+        "duration_days": 351
+      },
+      "risk_metrics": {
+        "max_drawdown_absolute": 12.9,
+        "risk_category": "Low"
+      }
+    },
+    "Random_threshold_seed_123": {
+      "strategy_name": "Random_threshold_seed_123",
+      "model_type": "Random Trading",
+      "financial_metrics": {
+        "initial_capital": 10000.0,
+        "final_capital": 3325.07,
+        "profit_loss": -6674.93,
+        "return_on_investment_pct": -66.75,
+        "win_rate_pct": 38.18,
+        "maximum_drawdown_pct": -0.73
+      },
+      "trading_metrics": {
+        "directional_accuracy_pct": 47.41,
+        "total_predictions": 252,
+        "best_strategy_method": "N/A"
+      },
+      "time_metrics": {
+        "start_date": "2024-01-15",
+        "end_date": "2024-12-31",
+        "duration_days": 351
+      },
+      "risk_metrics": {
+        "max_drawdown_absolute": 48.65,
+        "risk_category": "Low"
+      }
+    },
+    "Random_directional_seed_123": {
+      "strategy_name": "Random_directional_seed_123",
+      "model_type": "Random Trading",
+      "financial_metrics": {
+        "initial_capital": 10000.0,
+        "final_capital": 6147.83,
+        "profit_loss": -3852.17,
+        "return_on_investment_pct": -38.52,
+        "win_rate_pct": 41.07,
+        "maximum_drawdown_pct": -0.42
+      },
+      "trading_metrics": {
+        "directional_accuracy_pct": 47.41,
+        "total_predictions": 252,
+        "best_strategy_method": "N/A"
+      },
+      "time_metrics": {
+        "start_date": "2024-01-15",
+        "end_date": "2024-12-31",
+        "duration_days": 351
+      },
+      "risk_metrics": {
+        "max_drawdown_absolute": 16.19,
+        "risk_category": "Low"
+      }
+    },
+    "Random_hybrid_seed_123": {
+      "strategy_name": "Random_hybrid_seed_123",
+      "model_type": "Random Trading",
+      "financial_metrics": {
+        "initial_capital": 10000.0,
+        "final_capital": 5205.38,
+        "profit_loss": -4794.62,
+        "return_on_investment_pct": -47.95,
+        "win_rate_pct": 43.75,
+        "maximum_drawdown_pct": -0.53
+      },
+      "trading_metrics": {
+        "directional_accuracy_pct": 47.41,
+        "total_predictions": 252,
+        "best_strategy_method": "N/A"
+      },
+      "time_metrics": {
+        "start_date": "2024-01-15",
+        "end_date": "2024-12-31",
+        "duration_days": 351
+      },
+      "risk_metrics": {
+        "max_drawdown_absolute": 25.3,
+        "risk_category": "Low"
+      }
+    },
+    "Random_threshold_seed_987": {
+      "strategy_name": "Random_threshold_seed_987",
+      "model_type": "Random Trading",
+      "financial_metrics": {
+        "initial_capital": 10000.0,
+        "final_capital": 7197.91,
+        "profit_loss": -2802.09,
+        "return_on_investment_pct": -28.02,
+        "win_rate_pct": 50.0,
+        "maximum_drawdown_pct": -0.38
+      },
+      "trading_metrics": {
+        "directional_accuracy_pct": 44.22,
+        "total_predictions": 252,
+        "best_strategy_method": "N/A"
+      },
+      "time_metrics": {
+        "start_date": "2024-01-15",
+        "end_date": "2024-12-31",
+        "duration_days": 351
+      },
+      "risk_metrics": {
+        "max_drawdown_absolute": 10.75,
+        "risk_category": "Low"
+      }
+    },
+    "Random_directional_seed_987": {
+      "strategy_name": "Random_directional_seed_987",
+      "model_type": "Random Trading",
+      "financial_metrics": {
+        "initial_capital": 10000.0,
+        "final_capital": 3388.73,
+        "profit_loss": -6611.27,
+        "return_on_investment_pct": -66.11,
+        "win_rate_pct": 41.74,
+        "maximum_drawdown_pct": -0.69
+      },
+      "trading_metrics": {
+        "directional_accuracy_pct": 44.22,
+        "total_predictions": 252,
+        "best_strategy_method": "N/A"
+      },
+      "time_metrics": {
+        "start_date": "2024-01-15",
+        "end_date": "2024-12-31",
+        "duration_days": 351
+      },
+      "risk_metrics": {
+        "max_drawdown_absolute": 45.3,
+        "risk_category": "Low"
+      }
+    },
+    "Random_hybrid_seed_987": {
+      "strategy_name": "Random_hybrid_seed_987",
+      "model_type": "Random Trading",
+      "financial_metrics": {
+        "initial_capital": 10000.0,
+        "final_capital": 3962.87,
+        "profit_loss": -6037.13,
+        "return_on_investment_pct": -60.37,
+        "win_rate_pct": 39.66,
+        "maximum_drawdown_pct": -0.63
+      },
+      "trading_metrics": {
+        "directional_accuracy_pct": 44.22,
+        "total_predictions": 252,
+        "best_strategy_method": "N/A"
+      },
+      "time_metrics": {
+        "start_date": "2024-01-15",
+        "end_date": "2024-12-31",
+        "duration_days": 351
+      },
+      "risk_metrics": {
+        "max_drawdown_absolute": 37.87,
+        "risk_category": "Low"
+      }
+    },
+    "Random_threshold_seed_555": {
+      "strategy_name": "Random_threshold_seed_555",
+      "model_type": "Random Trading",
+      "financial_metrics": {
+        "initial_capital": 10000.0,
+        "final_capital": 6473.49,
+        "profit_loss": -3526.51,
+        "return_on_investment_pct": -35.27,
+        "win_rate_pct": 48.21,
+        "maximum_drawdown_pct": -0.48
+      },
+      "trading_metrics": {
+        "directional_accuracy_pct": 47.41,
+        "total_predictions": 252,
+        "best_strategy_method": "N/A"
+      },
+      "time_metrics": {
+        "start_date": "2024-01-15",
+        "end_date": "2024-12-31",
+        "duration_days": 351
+      },
+      "risk_metrics": {
+        "max_drawdown_absolute": 17.03,
+        "risk_category": "Low"
+      }
+    },
+    "Random_directional_seed_555": {
+      "strategy_name": "Random_directional_seed_555",
+      "model_type": "Random Trading",
+      "financial_metrics": {
+        "initial_capital": 10000.0,
+        "final_capital": -22.19,
+        "profit_loss": -10022.19,
+        "return_on_investment_pct": -100.22,
+        "win_rate_pct": 34.55,
+        "maximum_drawdown_pct": -1.1
+      },
+      "trading_metrics": {
+        "directional_accuracy_pct": 47.41,
+        "total_predictions": 252,
+        "best_strategy_method": "N/A"
+      },
+      "time_metrics": {
+        "start_date": "2024-01-15",
+        "end_date": "2024-12-31",
+        "duration_days": 351
+      },
+      "risk_metrics": {
+        "max_drawdown_absolute": 110.48,
+        "risk_category": "Low"
+      }
+    },
+    "Random_hybrid_seed_555": {
+      "strategy_name": "Random_hybrid_seed_555",
+      "model_type": "Random Trading",
+      "financial_metrics": {
+        "initial_capital": 10000.0,
+        "final_capital": 9754.65,
+        "profit_loss": -245.35,
+        "return_on_investment_pct": -2.45,
+        "win_rate_pct": 45.95,
+        "maximum_drawdown_pct": -0.2
+      },
+      "trading_metrics": {
+        "directional_accuracy_pct": 47.41,
+        "total_predictions": 252,
+        "best_strategy_method": "N/A"
+      },
+      "time_metrics": {
+        "start_date": "2024-01-15",
+        "end_date": "2024-12-31",
+        "duration_days": 351
+      },
+      "risk_metrics": {
+        "max_drawdown_absolute": 0.5,
+        "risk_category": "Low"
+      }
+    },
+    "Random_threshold_seed_777": {
+      "strategy_name": "Random_threshold_seed_777",
+      "model_type": "Random Trading",
+      "financial_metrics": {
+        "initial_capital": 10000.0,
+        "final_capital": 8146.33,
+        "profit_loss": -1853.67,
+        "return_on_investment_pct": -18.54,
+        "win_rate_pct": 47.83,
+        "maximum_drawdown_pct": -0.44
+      },
+      "trading_metrics": {
+        "directional_accuracy_pct": 48.61,
+        "total_predictions": 252,
+        "best_strategy_method": "N/A"
+      },
+      "time_metrics": {
+        "start_date": "2024-01-15",
+        "end_date": "2024-12-31",
+        "duration_days": 351
+      },
+      "risk_metrics": {
+        "max_drawdown_absolute": 8.09,
+        "risk_category": "Low"
+      }
+    },
+    "Random_directional_seed_777": {
+      "strategy_name": "Random_directional_seed_777",
+      "model_type": "Random Trading",
+      "financial_metrics": {
+        "initial_capital": 10000.0,
+        "final_capital": 8373.09,
+        "profit_loss": -1626.91,
+        "return_on_investment_pct": -16.27,
+        "win_rate_pct": 47.46,
+        "maximum_drawdown_pct": -0.32
+      },
+      "trading_metrics": {
+        "directional_accuracy_pct": 48.61,
+        "total_predictions": 252,
+        "best_strategy_method": "N/A"
+      },
+      "time_metrics": {
+        "start_date": "2024-01-15",
+        "end_date": "2024-12-31",
+        "duration_days": 351
+      },
+      "risk_metrics": {
+        "max_drawdown_absolute": 5.25,
+        "risk_category": "Low"
+      }
+    },
+    "Random_hybrid_seed_777": {
+      "strategy_name": "Random_hybrid_seed_777",
+      "model_type": "Random Trading",
+      "financial_metrics": {
+        "initial_capital": 10000.0,
+        "final_capital": 6565.66,
+        "profit_loss": -3434.34,
+        "return_on_investment_pct": -34.34,
+        "win_rate_pct": 50.85,
+        "maximum_drawdown_pct": -0.36
+      },
+      "trading_metrics": {
+        "directional_accuracy_pct": 48.61,
+        "total_predictions": 252,
+        "best_strategy_method": "N/A"
+      },
+      "time_metrics": {
+        "start_date": "2024-01-15",
+        "end_date": "2024-12-31",
+        "duration_days": 351
+      },
+      "risk_metrics": {
+        "max_drawdown_absolute": 12.5,
+        "risk_category": "Low"
+      }
+    },
+    "Buy_Hold_EUR_USD": {
+      "strategy_name": "Buy_Hold_EUR_USD",
+      "model_type": "Buy & Hold",
+      "financial_metrics": {
+        "initial_capital": 10000.0,
+        "final_capital": 9448.38,
+        "profit_loss": -551.62,
+        "return_on_investment_pct": -5.52,
+        "win_rate_pct": 0.0,
+        "maximum_drawdown_pct": -7.52
+      },
+      "trading_metrics": {
+        "directional_accuracy_pct": 0.0,
+        "total_predictions": 1,
+        "best_strategy_method": "N/A"
+      },
+      "time_metrics": {
+        "start_date": "2024-01-15",
+        "end_date": "2024-12-31",
+        "duration_days": 252
+      },
+      "risk_metrics": {
+        "max_drawdown_absolute": 41.48,
+        "risk_category": "Low"
+      }
+    },
+    "GRU_seed_42": {
+      "strategy_name": "GRU_seed_42",
+      "model_type": "GRU",
+      "financial_metrics": {
+        "initial_capital": 10000.0,
+        "final_capital": 23789.32,
+        "profit_loss": 13789.32,
+        "return_on_investment_pct": 137.89,
+        "win_rate_pct": 90.2,
+        "maximum_drawdown_pct": -0.03
+      },
+      "trading_metrics": {
+        "directional_accuracy_pct": 73.82,
+        "total_predictions": 192,
+        "best_strategy_method": "directional"
+      },
+      "time_metrics": {
+        "start_date": "2024-01-15",
+        "end_date": "2024-10-08",
+        "duration_days": 267
+      },
+      "risk_metrics": {
+        "max_drawdown_absolute": -4.31,
+        "risk_category": "Low"
+      },
+      "model_specific": {
+        "retraining_frequency": "N/A",
+        "model_architecture": "GRU with Optuna optimization",
+        "features_used": "EUR/USD price, DXY, RSI, SMA"
+      }
+    },
+    "GRU_seed_123": {
+      "strategy_name": "GRU_seed_123",
+      "model_type": "GRU",
+      "financial_metrics": {
+        "initial_capital": 10000.0,
+        "final_capital": 22358.93,
+        "profit_loss": 12358.93,
+        "return_on_investment_pct": 123.59,
+        "win_rate_pct": 81.4,
+        "maximum_drawdown_pct": -0.06
+      },
+      "trading_metrics": {
+        "directional_accuracy_pct": 67.54,
+        "total_predictions": 192,
+        "best_strategy_method": "directional"
+      },
+      "time_metrics": {
+        "start_date": "2024-01-15",
+        "end_date": "2024-10-08",
+        "duration_days": 267
+      },
+      "risk_metrics": {
+        "max_drawdown_absolute": -7.28,
+        "risk_category": "Low"
+      },
+      "model_specific": {
+        "retraining_frequency": "N/A",
+        "model_architecture": "GRU with Optuna optimization",
+        "features_used": "EUR/USD price, DXY, RSI, SMA"
+      }
+    },
+    "GRU_seed_987": {
+      "strategy_name": "GRU_seed_987",
+      "model_type": "GRU",
+      "financial_metrics": {
+        "initial_capital": 10000.0,
+        "final_capital": 20957.79,
+        "profit_loss": 10957.79,
+        "return_on_investment_pct": 109.58,
+        "win_rate_pct": 83.67,
+        "maximum_drawdown_pct": -0.08
+      },
+      "trading_metrics": {
+        "directional_accuracy_pct": 69.63,
+        "total_predictions": 192,
+        "best_strategy_method": "directional"
+      },
+      "time_metrics": {
+        "start_date": "2024-01-15",
+        "end_date": "2024-10-08",
+        "duration_days": 267
+      },
+      "risk_metrics": {
+        "max_drawdown_absolute": -8.49,
+        "risk_category": "Low"
+      },
+      "model_specific": {
+        "retraining_frequency": "N/A",
+        "model_architecture": "GRU with Optuna optimization",
+        "features_used": "EUR/USD price, DXY, RSI, SMA"
+      }
+    },
+    "GRU_seed_555": {
+      "strategy_name": "GRU_seed_555",
+      "model_type": "GRU",
+      "financial_metrics": {
+        "initial_capital": 10000.0,
+        "final_capital": 22820.76,
+        "profit_loss": 12820.76,
+        "return_on_investment_pct": 128.21,
+        "win_rate_pct": 88.24,
+        "maximum_drawdown_pct": -0.05
+      },
+      "trading_metrics": {
+        "directional_accuracy_pct": 69.11,
+        "total_predictions": 192,
+        "best_strategy_method": "directional"
+      },
+      "time_metrics": {
+        "start_date": "2024-01-15",
+        "end_date": "2024-10-08",
+        "duration_days": 267
+      },
+      "risk_metrics": {
+        "max_drawdown_absolute": -5.8,
+        "risk_category": "Low"
+      },
+      "model_specific": {
+        "retraining_frequency": "N/A",
+        "model_architecture": "GRU with Optuna optimization",
+        "features_used": "EUR/USD price, DXY, RSI, SMA"
+      }
+    },
+    "GRU_seed_777": {
+      "strategy_name": "GRU_seed_777",
+      "model_type": "GRU",
+      "financial_metrics": {
+        "initial_capital": 10000.0,
+        "final_capital": 22061.62,
+        "profit_loss": 12061.62,
+        "return_on_investment_pct": 120.62,
+        "win_rate_pct": 77.36,
+        "maximum_drawdown_pct": -0.07
+      },
+      "trading_metrics": {
+        "directional_accuracy_pct": 67.02,
+        "total_predictions": 192,
+        "best_strategy_method": "directional"
+      },
+      "time_metrics": {
+        "start_date": "2024-01-15",
+        "end_date": "2024-10-08",
+        "duration_days": 267
+      },
+      "risk_metrics": {
+        "max_drawdown_absolute": -8.32,
+        "risk_category": "Low"
+      },
+      "model_specific": {
+        "retraining_frequency": "N/A",
+        "model_architecture": "GRU with Optuna optimization",
+        "features_used": "EUR/USD price, DXY, RSI, SMA"
+      }
+    },
+    "GRU_seed_2024": {
+      "strategy_name": "GRU_seed_2024",
+      "model_type": "GRU",
+      "financial_metrics": {
+        "initial_capital": 10000.0,
+        "final_capital": 22731.94,
+        "profit_loss": 12731.94,
+        "return_on_investment_pct": 127.32,
+        "win_rate_pct": 81.13,
+        "maximum_drawdown_pct": -0.06
+      },
+      "trading_metrics": {
+        "directional_accuracy_pct": 69.63,
+        "total_predictions": 192,
+        "best_strategy_method": "directional"
+      },
+      "time_metrics": {
+        "start_date": "2024-01-15",
+        "end_date": "2024-10-08",
+        "duration_days": 267
+      },
+      "risk_metrics": {
+        "max_drawdown_absolute": -7.61,
+        "risk_category": "Low"
+      },
+      "model_specific": {
+        "retraining_frequency": "N/A",
+        "model_architecture": "GRU with Optuna optimization",
+        "features_used": "EUR/USD price, DXY, RSI, SMA"
+      }
+    },
+    "GRU_seed_1337": {
+      "strategy_name": "GRU_seed_1337",
+      "model_type": "GRU",
+      "financial_metrics": {
+        "initial_capital": 10000.0,
+        "final_capital": 23452.93,
+        "profit_loss": 13452.93,
+        "return_on_investment_pct": 134.53,
+        "win_rate_pct": 85.45,
+        "maximum_drawdown_pct": -0.03
+      },
+      "trading_metrics": {
+        "directional_accuracy_pct": 71.73,
+        "total_predictions": 192,
+        "best_strategy_method": "directional"
+      },
+      "time_metrics": {
+        "start_date": "2024-01-15",
+        "end_date": "2024-10-08",
+        "duration_days": 267
+      },
+      "risk_metrics": {
+        "max_drawdown_absolute": -4.7,
+        "risk_category": "Low"
+      },
+      "model_specific": {
+        "retraining_frequency": "N/A",
+        "model_architecture": "GRU with Optuna optimization",
+        "features_used": "EUR/USD price, DXY, RSI, SMA"
+      }
+    }
+  }
+}
